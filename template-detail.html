@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Template Detail — SLIPKIT</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--purple:#7F77DD;--purple-dark:#534AB7;--purple-light:#EEEDFE;--navy:#1A1A2E;--cream:#FAFAF7;--gray-mid:#888780;--gray-light:#F1EFE8;--coral:#D85A30;--gold:#EF9F27}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--navy)}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1.2rem 4rem;display:flex;justify-content:space-between;align-items:center;background:rgba(250,250,247,0.88);backdrop-filter:blur(16px);border-bottom:1px solid rgba(127,119,221,0.12)}
+.nav-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:1.4rem;color:var(--navy);letter-spacing:-0.02em;text-decoration:none}
+.nav-logo span{color:var(--purple)}
+.nav-links{display:flex;gap:2.5rem;list-style:none}
+.nav-links a{font-size:0.875rem;color:var(--gray-mid);text-decoration:none;transition:color 0.2s}
+.nav-links a:hover{color:var(--purple)}
+.nav-cta{background:var(--navy);color:#fff;font-size:0.8rem;letter-spacing:0.06em;text-transform:uppercase;padding:0.6rem 1.4rem;border-radius:99px;text-decoration:none;font-family:'Syne',sans-serif;font-weight:600}
+
+.breadcrumb{padding:7rem 4rem 1.5rem;display:flex;gap:0.5rem;align-items:center;font-size:0.8rem;color:var(--gray-mid)}
+.breadcrumb a{color:var(--gray-mid);text-decoration:none;transition:color 0.2s}
+.breadcrumb a:hover{color:var(--purple)}
+.breadcrumb span{color:var(--navy)}
+
+.detail-layout{display:grid;grid-template-columns:1fr 420px;gap:4rem;padding:0 4rem 6rem;max-width:1400px}
+
+/* LEFT: Preview */
+.preview-area{}
+.tpl-tag{display:inline-flex;align-items:center;gap:0.4rem;background:var(--purple-light);color:var(--purple-dark);font-size:0.7rem;letter-spacing:0.08em;text-transform:uppercase;padding:0.3rem 0.8rem;border-radius:99px;font-family:'Syne',sans-serif;font-weight:600;margin-bottom:1rem}
+.tpl-title{font-family:'Syne',sans-serif;font-size:2.4rem;font-weight:800;letter-spacing:-0.025em;line-height:1.1;margin-bottom:0.75rem}
+.tpl-desc{font-size:1rem;color:var(--gray-mid);line-height:1.7;max-width:600px;margin-bottom:2rem}
+
+.preview-box{border-radius:24px;overflow:hidden;margin-bottom:1.5rem;position:relative;min-height:500px;display:flex;align-items:center;justify-content:center}
+
+/* Receipt previews styled per template */
+.receipt-full{width:380px;border-radius:16px;padding:2.5rem;box-shadow:0 32px 80px rgba(26,26,46,0.15)}
+.rf-header{margin-bottom:1.5rem}
+.rf-brand{font-family:'Syne',sans-serif;font-weight:800;font-size:1.5rem}
+.rf-sub{font-size:0.75rem;opacity:0.5;margin-top:0.2rem}
+.rf-info{display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;font-size:0.75rem;opacity:0.6;margin-bottom:1.5rem}
+.rf-divider{height:1px;background:rgba(0,0,0,0.1);margin:1rem 0}
+.rf-item{display:flex;justify-content:space-between;font-size:0.85rem;padding:0.5rem 0}
+.rf-total-row{display:flex;justify-content:space-between;font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem;padding-top:1rem;margin-top:0.5rem;border-top:2px solid}
+.rf-footer{margin-top:1.5rem;font-size:0.7rem;text-align:center;opacity:0.4;letter-spacing:0.04em}
+
+.tabs{display:flex;gap:0;margin-bottom:1.5rem;border-bottom:1px solid rgba(127,119,221,0.15)}
+.tab{padding:0.75rem 1.5rem;font-size:0.85rem;cursor:pointer;color:var(--gray-mid);border-bottom:2px solid transparent;margin-bottom:-1px;transition:all 0.2s;font-family:'Syne',sans-serif;font-weight:600}
+.tab.active{color:var(--purple);border-bottom-color:var(--purple)}
+.tab-content{display:none}
+.tab-content.active{display:block}
+.usage-step{display:flex;gap:1rem;margin-bottom:1.5rem;align-items:flex-start}
+.step-circle{width:32px;height:32px;border-radius:50%;background:var(--purple-light);color:var(--purple-dark);display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-family:'Syne',sans-serif;font-weight:700;flex-shrink:0;margin-top:0.1rem}
+.step-text{}
+.step-text h4{font-family:'Syne',sans-serif;font-weight:600;font-size:0.9rem;margin-bottom:0.3rem}
+.step-text p{font-size:0.83rem;color:var(--gray-mid);line-height:1.6}
+
+/* RIGHT: Sidebar */
+.sidebar{}
+.sidebar-card{background:#fff;border-radius:20px;padding:1.75rem;margin-bottom:1.25rem;border:0.5px solid rgba(127,119,221,0.12)}
+.sidebar-card h3{font-family:'Syne',sans-serif;font-weight:700;font-size:0.95rem;margin-bottom:1rem;color:var(--navy)}
+.info-row{display:flex;justify-content:space-between;align-items:center;padding:0.6rem 0;border-bottom:1px solid var(--gray-light);font-size:0.83rem}
+.info-row:last-child{border-bottom:none}
+.info-label{color:var(--gray-mid)}
+.info-val{font-weight:500;color:var(--navy)}
+.badge-row{display:flex;flex-wrap:wrap;gap:0.4rem;margin-top:0.5rem}
+.badge{font-size:0.68rem;padding:0.25rem 0.6rem;border-radius:99px;font-weight:500}
+.btn-download{width:100%;background:var(--navy);color:#fff;padding:1rem;border-radius:12px;border:none;font-family:'Syne',sans-serif;font-weight:700;font-size:0.9rem;letter-spacing:0.03em;cursor:pointer;transition:all 0.25s;margin-bottom:0.75rem}
+.btn-download:hover{background:var(--purple);transform:translateY(-2px)}
+.btn-back{width:100%;background:transparent;color:var(--navy);padding:0.85rem;border-radius:12px;border:1.5px solid var(--navy);font-family:'Syne',sans-serif;font-weight:600;font-size:0.85rem;cursor:pointer;transition:all 0.25s;text-decoration:none;display:block;text-align:center}
+.btn-back:hover{border-color:var(--purple);color:var(--purple)}
+
+/* Template nav (prev/next) */
+.tpl-nav{display:flex;gap:1rem}
+.tpl-nav-btn{flex:1;padding:0.75rem;border:1.5px solid var(--gray-light);border-radius:12px;text-decoration:none;color:var(--navy);font-size:0.8rem;transition:all 0.2s;text-align:center}
+.tpl-nav-btn:hover{border-color:var(--purple);color:var(--purple)}
+.tpl-nav-btn small{display:block;font-size:0.65rem;color:var(--gray-mid);margin-bottom:0.2rem;letter-spacing:0.06em;text-transform:uppercase}
+
+@media(max-width:900px){
+  nav{padding:1rem 1.5rem}
+  .breadcrumb,.detail-layout{padding-left:1.5rem;padding-right:1.5rem}
+  .detail-layout{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">SLIP<span>KIT</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Templates</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="admin.html">Admin</a></li>
+  </ul>
+  <a href="index.html#templates" class="nav-cta">← กลับ</a>
+</nav>
+
+<div class="breadcrumb">
+  <a href="index.html">Home</a> <span>/</span> <span id="breadcrumbName">Template</span>
+</div>
+
+<div class="detail-layout">
+  <div class="preview-area">
+    <div class="tpl-tag" id="tplStyle">Style</div>
+    <h1 class="tpl-title" id="tplTitle">Template Name</h1>
+    <p class="tpl-desc" id="tplDesc">Description</p>
+
+    <!-- Preview box -->
+    <div class="preview-box" id="previewBox"></div>
+
+    <!-- Tabs -->
+    <div class="tabs">
+      <div class="tab active" onclick="switchTab('usage')">วิธีใช้งาน</div>
+      <div class="tab" onclick="switchTab('features')">Features</div>
+      <div class="tab" onclick="switchTab('suitable')">เหมาะกับใคร</div>
+    </div>
+
+    <div class="tab-content active" id="tab-usage">
+      <div class="usage-step">
+        <div class="step-circle">1</div>
+        <div class="step-text"><h4>ดาวน์โหลด Template</h4><p>กดปุ่ม "ดาวน์โหลด Template" ด้านขวา ไฟล์จะถูกดาวน์โหลดมาที่เครื่องของคุณในรูปแบบ ZIP</p></div>
+      </div>
+      <div class="usage-step">
+        <div class="step-circle">2</div>
+        <div class="step-text"><h4>แตกไฟล์และเปิด</h4><p>แตกไฟล์ ZIP แล้วเปิดด้วย Adobe Illustrator, Figma หรือ Canva ตามชนิดไฟล์ที่ให้มา</p></div>
+      </div>
+      <div class="usage-step">
+        <div class="step-circle">3</div>
+        <div class="step-text"><h4>ใส่ข้อมูลธุรกิจ</h4><p>แทนที่ข้อมูลตัวอย่างด้วยชื่อบริษัท, โลโก้, รายการสินค้า/บริการ และข้อมูลราคา</p></div>
+      </div>
+      <div class="usage-step">
+        <div class="step-circle">4</div>
+        <div class="step-text"><h4>Export และใช้งาน</h4><p>Export เป็น PDF หรือ PNG แล้วส่งให้ลูกค้า หรือพิมพ์ออกมาใช้งานได้เลย</p></div>
+      </div>
+    </div>
+
+    <div class="tab-content" id="tab-features">
+      <div id="featuresList"></div>
+    </div>
+
+    <div class="tab-content" id="tab-suitable">
+      <div id="suitableList"></div>
+    </div>
+  </div>
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div class="sidebar-card">
+      <button class="btn-download" onclick="alert('ขอบคุณที่สนใจ! ฟีเจอร์ดาวน์โหลดจะเปิดให้บริการเร็วๆ นี้')">⬇ ดาวน์โหลด Template ฟรี</button>
+      <a href="index.html" class="btn-back">← ดู Templates อื่น</a>
+    </div>
+
+    <div class="sidebar-card">
+      <h3>ข้อมูล Template</h3>
+      <div id="infoRows"></div>
+    </div>
+
+    <div class="sidebar-card">
+      <h3>Tags</h3>
+      <div class="badge-row" id="tagsList"></div>
+    </div>
+
+    <div class="tpl-nav">
+      <a href="#" id="prevBtn" class="tpl-nav-btn"><small>← ก่อนหน้า</small><span id="prevName">—</span></a>
+      <a href="#" id="nextBtn" class="tpl-nav-btn"><small>ถัดไป →</small><span id="nextName">—</span></a>
+    </div>
+  </div>
+</div>
+
+<script>
+const templates = [
+  {
+    id:1, name:'Aurora Minimal', style:'Minimalist', color:'White + Slate Gray',
+    desc:'ดีไซน์เรียบง่าย สะอาด เหมาะกับธุรกิจสายครีเอทีฟและ Freelancer ใช้งานง่ายรองรับหลายสกุลเงิน',
+    audience:'Freelancer, Designer, Startup, Creative Studio',
+    currency:'THB, USD, EUR, GBP', tax:true, logo:true,
+    tags:['Freelancer','Clean','Minimal','Timeless','Professional'],
+    tagColors:['#EEEDFE|#534AB7','#F1EFE8|#5F5E5A','#EEEDFE|#534AB7','#E1F5EE|#085041','#E6F1FB|#0C447C'],
+    features:['White space layout สะอาดตา','Typography-first design','รองรับ Multi-currency','Tax field แยกอัตโนมัติ','Logo slot ปรับขนาดได้','Format: PDF, AI, Figma'],
+    bgColor:'#F8F7FF',
+    renderFn: () => `
+      <div class="receipt-full" style="background:#fff">
+        <div class="rf-header">
+          <div class="rf-brand" style="color:#1A1A2E">YOUR STUDIO</div>
+          <div class="rf-sub">ใบเสร็จรับเงิน / Receipt</div>
+        </div>
+        <div class="rf-info">
+          <div><div style="color:#888;font-size:0.65rem;letter-spacing:0.06em">เลขที่</div><div style="color:#1A1A2E;font-weight:500">#INV-2026-001</div></div>
+          <div><div style="color:#888;font-size:0.65rem;letter-spacing:0.06em">วันที่</div><div style="color:#1A1A2E;font-weight:500">09 Apr 2026</div></div>
+        </div>
+        <div class="rf-divider"></div>
+        <div class="rf-item"><span>Design Service</span><span>฿3,500</span></div>
+        <div class="rf-item"><span>Consulting</span><span>฿1,200</span></div>
+        <div class="rf-item"><span>Revisions (2x)</span><span>฿400</span></div>
+        <div class="rf-divider"></div>
+        <div class="rf-item" style="color:#888"><span>Subtotal</span><span>฿5,100</span></div>
+        <div class="rf-item" style="color:#888"><span>VAT 7%</span><span>฿357</span></div>
+        <div class="rf-total-row" style="border-color:#1A1A2E"><span>TOTAL</span><span>฿5,457</span></div>
+        <div class="rf-footer">ขอบคุณที่ใช้บริการ / Thank you for your business</div>
+      </div>`
+  },
+  {
+    id:2, name:'Vivid Pop', style:'Colorful / Vibrant', color:'Coral + Yellow + Teal',
+    desc:'สีสันสดใส มีชีวิตชีวา ดึงดูดสายตา เหมาะกับร้านค้าและธุรกิจสไตล์ pop ที่ต้องการความโดดเด่น',
+    audience:'Retail, Food & Beverage, Small Shop, Market',
+    currency:'THB, USD', tax:true, logo:true,
+    tags:['Retail','Food','Colorful','Bold','Pop'],
+    tagColors:['#FAECE7|#712B13','#FAEEDA|#633806','#FBEAF0|#72243E','#FAECE7|#993C1D','#E1F5EE|#085041'],
+    features:['Color-block design สะดุดตา','Emoji-friendly layout','รองรับ barcode/QR','Compact format สำหรับ POS','Format: PDF, PNG, Canva'],
+    bgColor:'#FFF0ED',
+    renderFn: () => `
+      <div class="receipt-full" style="background:linear-gradient(135deg,#FF6B6B 0%,#FFE66D 100%)">
+        <div class="rf-header">
+          <div class="rf-brand" style="color:#1A1A2E;font-size:2rem">SHOP!</div>
+          <div class="rf-sub" style="color:rgba(26,26,46,0.6)">ใบเสร็จรับเงิน</div>
+        </div>
+        <div class="rf-info">
+          <div><div style="color:rgba(26,26,46,0.5);font-size:0.65rem">เลขที่</div><div style="color:#1A1A2E;font-weight:500">#0042</div></div>
+          <div><div style="color:rgba(26,26,46,0.5);font-size:0.65rem">วันที่</div><div style="color:#1A1A2E;font-weight:500">09 Apr 2026</div></div>
+        </div>
+        <div class="rf-divider" style="background:rgba(26,26,46,0.2)"></div>
+        <div class="rf-item" style="color:#1A1A2E"><span>Product A x2</span><span>฿598</span></div>
+        <div class="rf-item" style="color:#1A1A2E"><span>Product B x1</span><span>฿299</span></div>
+        <div class="rf-item" style="color:#1A1A2E"><span>Tote Bag</span><span>฿150</span></div>
+        <div class="rf-divider" style="background:rgba(26,26,46,0.2)"></div>
+        <div class="rf-item" style="color:rgba(26,26,46,0.6)"><span>VAT 7%</span><span>฿73</span></div>
+        <div class="rf-total-row" style="border-color:#1A1A2E;color:#1A1A2E"><span>TOTAL</span><span>฿1,120</span></div>
+        <div class="rf-footer" style="color:rgba(26,26,46,0.5)">ขอบคุณมากนะคะ! 🛍</div>
+      </div>`
+  },
+  {
+    id:3, name:'Onyx Premium', style:'Dark / Premium', color:'Charcoal + Gold',
+    desc:'โทนสีเข้มหรูหรา ให้ความรู้สึก premium ทุก pixel เหมาะกับแบรนด์ luxury boutique และ agency ชั้นนำ',
+    audience:'Luxury Brand, Boutique, Agency, High-end Service',
+    currency:'THB, USD, EUR', tax:true, logo:true,
+    tags:['Luxury','Premium','Gold','Dark','Exclusive'],
+    tagColors:['#2C2C2A|#D3D1C7','#FAEEDA|#633806','#FAC775|#412402','#444441|#D3D1C7','#FCEBEB|#501313'],
+    features:['Dark premium aesthetic','Gold accent elements','Signature line สำหรับลงนาม','Foil-ready design','Watermark protection','Format: PDF, AI, PSD'],
+    bgColor:'#1A1A2E',
+    renderFn: () => `
+      <div class="receipt-full" style="background:#16213E">
+        <div class="rf-header" style="border-bottom:1px solid rgba(239,159,39,0.3);padding-bottom:1.2rem;margin-bottom:1.2rem">
+          <div class="rf-brand" style="color:#EF9F27;letter-spacing:0.08em">LUXE MAISON</div>
+          <div class="rf-sub" style="color:rgba(239,159,39,0.5)">Official Receipt</div>
+        </div>
+        <div class="rf-info" style="color:rgba(255,255,255,0.4)">
+          <div><div style="font-size:0.6rem;letter-spacing:0.1em">RECEIPT NO.</div><div style="color:rgba(255,255,255,0.7)">#LM-2026-088</div></div>
+          <div><div style="font-size:0.6rem;letter-spacing:0.1em">DATE</div><div style="color:rgba(255,255,255,0.7)">09.04.2026</div></div>
+        </div>
+        <div class="rf-divider" style="background:rgba(239,159,39,0.2)"></div>
+        <div class="rf-item" style="color:rgba(255,255,255,0.7)"><span>Signature Package</span><span>฿45,000</span></div>
+        <div class="rf-item" style="color:rgba(255,255,255,0.7)"><span>Premium Consultation</span><span>฿12,000</span></div>
+        <div class="rf-divider" style="background:rgba(255,255,255,0.05)"></div>
+        <div class="rf-item" style="color:rgba(255,255,255,0.4)"><span>VAT 7%</span><span>฿3,990</span></div>
+        <div class="rf-total-row" style="border-color:#EF9F27;color:#EF9F27"><span>TOTAL</span><span>฿60,990</span></div>
+        <div class="rf-footer" style="color:rgba(239,159,39,0.3);letter-spacing:0.1em">THANK YOU FOR YOUR PATRONAGE</div>
+      </div>`
+  },
+  {
+    id:4, name:'Nostalgic Press', style:'Retro / Vintage', color:'Cream + Brown + Terracotta',
+    desc:'กลิ่นอายวินเทจอบอุ่น ให้ความรู้สึกคลาสสิก เหมาะกับร้านกาแฟ Artisan Shop และแบรนด์ Handmade',
+    audience:'Café, Artisan, Handmade Brand, Bakery, Bookshop',
+    currency:'THB, USD', tax:false, logo:true,
+    tags:['Café','Vintage','Warm','Artisan','Handmade'],
+    tagColors:['#FAEEDA|#633806','#FAECE7|#712B13','#FAC775|#412402','#FAEEDA|#993C1D','#F5ECD7|#8B5E3C'],
+    features:['Serif typography คลาสสิก','Warm cream color palette','Hand-drawn border elements','Stamp-style logo placement','No VAT option','Format: PDF, Canva, PNG'],
+    bgColor:'#F5ECD7',
+    renderFn: () => `
+      <div class="receipt-full" style="background:#FFFBF2;border:2px solid #D4A574;font-family:'Georgia',serif">
+        <div style="text-align:center;margin-bottom:1.5rem">
+          <div style="font-size:0.65rem;letter-spacing:0.15em;color:#A07850;text-transform:uppercase;margin-bottom:0.3rem">— Established 2020 —</div>
+          <div class="rf-brand" style="color:#6B3D1E;font-size:1.8rem;font-family:Georgia">The Corner Café</div>
+          <div style="font-size:0.7rem;color:#A07850;letter-spacing:0.06em">Hand-crafted with love</div>
+        </div>
+        <div style="border-top:1px dashed #D4A574;border-bottom:1px dashed #D4A574;padding:0.8rem 0;margin-bottom:1rem">
+          <div style="display:flex;justify-content:space-between;font-size:0.75rem;color:#8B5E3C">
+            <span>Receipt #0156</span><span>09 Apr 2026</span>
+          </div>
+        </div>
+        <div class="rf-item" style="color:#6B3D1E"><span>Espresso Double</span><span>฿85</span></div>
+        <div class="rf-item" style="color:#6B3D1E"><span>Croissant Butter</span><span>฿65</span></div>
+        <div class="rf-item" style="color:#6B3D1E"><span>Cheesecake Slice</span><span>฿120</span></div>
+        <div style="border-top:2px solid #8B5E3C;margin-top:0.8rem;padding-top:0.8rem">
+          <div style="display:flex;justify-content:space-between;font-family:'Syne',sans-serif;font-weight:800;font-size:1.05rem;color:#6B3D1E"><span>Total</span><span>฿270</span></div>
+        </div>
+        <div style="text-align:center;margin-top:1.5rem;font-size:0.65rem;color:#A07850;letter-spacing:0.06em;font-style:italic">Thank you — see you again soon</div>
+      </div>`
+  },
+  {
+    id:5, name:'Blueprint Pro', style:'Corporate / B2B', color:'Navy + White + Silver',
+    desc:'ดีไซน์มืออาชีพ น่าเชื่อถือ มีระเบียบ เหมาะสำหรับองค์กรธุรกิจขนาดใหญ่ บริษัท และ B2B Service',
+    audience:'Corporate, Consulting, B2B Service, Government',
+    currency:'THB, USD, EUR, JPY', tax:true, logo:true,
+    tags:['Corporate','B2B','Professional','Trust','Enterprise'],
+    tagColors:['#E6F1FB|#0C447C','#EAF3DE|#27500A','#EEEDFE|#534AB7','#E6F1FB|#185FA5','#F1EFE8|#444441'],
+    features:['Grid-based corporate layout','Official letterhead format','Tax Invoice compliant (ไทย)','Multi-language support (TH/EN)','Digital signature field','Format: PDF, DOCX, Excel'],
+    bgColor:'#EEF2F7',
+    renderFn: () => `
+      <div class="receipt-full" style="background:#fff;border-top:4px solid #1A3A5C">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1.5rem">
+          <div>
+            <div style="font-size:0.7rem;letter-spacing:0.1em;color:#1A3A5C;text-transform:uppercase;font-weight:600;margin-bottom:0.2rem">TAX INVOICE / RECEIPT</div>
+            <div class="rf-brand" style="color:#1A3A5C;font-size:1.1rem;letter-spacing:0.04em">CORPORATION LIMITED</div>
+            <div style="font-size:0.7rem;color:#888;margin-top:0.2rem">เลขประจำตัวผู้เสียภาษี: 0105567XXXXX</div>
+          </div>
+          <div style="text-align:right;font-size:0.75rem;color:#666">
+            <div>เลขที่: <strong style="color:#1A3A5C">INV-2026-0458</strong></div>
+            <div>วันที่: <strong style="color:#1A3A5C">09/04/2026</strong></div>
+          </div>
+        </div>
+        <div style="background:#F0F4F8;padding:0.75rem 1rem;border-radius:6px;font-size:0.75rem;color:#444;margin-bottom:1.2rem">
+          <div><strong>บริษัท ลูกค้า จำกัด</strong></div>
+          <div style="color:#666">99/1 ถนนสุขุมวิท แขวงคลองเตย กรุงเทพฯ 10110</div>
+        </div>
+        <table style="width:100%;font-size:0.78rem;border-collapse:collapse">
+          <tr style="background:#1A3A5C;color:#fff">
+            <th style="padding:0.5rem;text-align:left">รายการ</th>
+            <th style="padding:0.5rem;text-align:right">จำนวน</th>
+            <th style="padding:0.5rem;text-align:right">ราคา</th>
+          </tr>
+          <tr style="border-bottom:1px solid #dde4ed">
+            <td style="padding:0.5rem">Consulting Services</td><td style="padding:0.5rem;text-align:right">1</td><td style="padding:0.5rem;text-align:right">฿25,000</td>
+          </tr>
+          <tr style="border-bottom:1px solid #dde4ed;background:#F8FAFC">
+            <td style="padding:0.5rem">Annual Support</td><td style="padding:0.5rem;text-align:right">1</td><td style="padding:0.5rem;text-align:right">฿12,000</td>
+          </tr>
+        </table>
+        <div style="text-align:right;margin-top:1rem;font-size:0.8rem">
+          <div style="color:#666;margin-bottom:0.3rem">ภาษีมูลค่าเพิ่ม 7%: <strong>฿2,590</strong></div>
+          <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem;color:#1A3A5C">รวมทั้งสิ้น: ฿39,590</div>
+        </div>
+      </div>`
+  },
+  {
+    id:6, name:'Doodle Studio', style:'Playful / Creative', color:'Lavender + Peach + Mint',
+    desc:'สนุกสนาน มีชีวิต ดีไซน์ลื่นไหล เหมาะกับ Creative Studio งาน Event และแบรนด์เด็กที่ต้องการความสนุก',
+    audience:'Kids Brand, Creative Studio, Event Planner, Workshop',
+    currency:'THB, USD', tax:false, logo:true,
+    tags:['Creative','Fun','Kids','Event','Workshop'],
+    tagColors:['#EEEDFE|#534AB7','#FBEAF0|#72243E','#E1F5EE|#085041','#FAEEDA|#633806','#EAF3DE|#27500A'],
+    features:['Hand-drawn illustration elements','Pastel color palette','Emoji-friendly','No-tax option','Customizable doodles','Format: PDF, Canva, PNG'],
+    bgColor:'#EDE9FE',
+    renderFn: () => `
+      <div class="receipt-full" style="background:#fff;border:2.5px dashed #C4A7E7;border-radius:20px">
+        <div style="text-align:center;margin-bottom:1.2rem">
+          <div style="font-size:1.8rem;margin-bottom:0.3rem">🎨</div>
+          <div class="rf-brand" style="color:#7C3AED;font-size:1.3rem">Doodle Studio</div>
+          <div style="font-size:0.7rem;color:#A78BFA;margin-top:0.2rem">✨ Creative Workshop Receipt ✨</div>
+        </div>
+        <div style="background:#F5F3FF;border-radius:10px;padding:0.75rem;margin-bottom:1rem;font-size:0.75rem;color:#7C3AED">
+          <span>📅 09 Apr 2026</span> &nbsp;|&nbsp; <span>🎫 #DL-088</span>
+        </div>
+        <div class="rf-item" style="color:#6D28D9"><span>🖌 Watercolor Workshop</span><span>฿490</span></div>
+        <div class="rf-item" style="color:#6D28D9"><span>🎨 Art Supplies Kit</span><span>฿150</span></div>
+        <div class="rf-item" style="color:#6D28D9"><span>📸 Photo Package</span><span>฿200</span></div>
+        <div style="border-top:2px dashed #C4A7E7;margin-top:1rem;padding-top:1rem">
+          <div style="display:flex;justify-content:space-between;font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem;color:#7C3AED"><span>🌟 Total</span><span>฿840</span></div>
+        </div>
+        <div style="text-align:center;margin-top:1.2rem;font-size:0.8rem;color:#A78BFA">Thanks for joining us! See you next time! 🦋</div>
+      </div>`
+  }
+];
+
+function getParam(name){return new URLSearchParams(window.location.search).get(name)}
+function switchTab(name){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
+  document.querySelector(`[onclick="switchTab('${name}')"]`).classList.add('active');
+  document.getElementById('tab-'+name).classList.add('active');
+}
+
+function render(){
+  const id = parseInt(getParam('id')) || 1;
+  const t = templates.find(x=>x.id===id) || templates[0];
+  document.title = `${t.name} — SLIPKIT`;
+  document.getElementById('breadcrumbName').textContent = t.name;
+  document.getElementById('tplStyle').textContent = t.style;
+  document.getElementById('tplTitle').textContent = t.name;
+  document.getElementById('tplDesc').textContent = t.desc;
+
+  const pb = document.getElementById('previewBox');
+  pb.style.background = t.bgColor;
+  pb.innerHTML = t.renderFn();
+
+  document.getElementById('infoRows').innerHTML = `
+    <div class="info-row"><span class="info-label">Style</span><span class="info-val">${t.style}</span></div>
+    <div class="info-row"><span class="info-label">Color Theme</span><span class="info-val">${t.color}</span></div>
+    <div class="info-row"><span class="info-label">Currency</span><span class="info-val">${t.currency}</span></div>
+    <div class="info-row"><span class="info-label">ช่อง VAT/Tax</span><span class="info-val">${t.tax?'✓ มี':'— ไม่มี'}</span></div>
+    <div class="info-row"><span class="info-label">ช่อง Logo</span><span class="info-val">${t.logo?'✓ มี':'— ไม่มี'}</span></div>
+    <div class="info-row"><span class="info-label">Target</span><span class="info-val" style="font-size:0.75rem">${t.audience}</span></div>
+  `;
+
+  document.getElementById('tagsList').innerHTML = t.tags.map((tag,i)=>{
+    const [bg,col] = (t.tagColors[i]||'#EEEDFE|#534AB7').split('|');
+    return `<span class="badge" style="background:${bg};color:${col}">${tag}</span>`;
+  }).join('');
+
+  document.getElementById('featuresList').innerHTML = t.features.map(f=>
+    `<div style="display:flex;gap:0.75rem;margin-bottom:0.9rem;align-items:flex-start">
+      <span style="color:var(--purple);font-size:0.9rem;margin-top:0.1rem">✓</span>
+      <span style="font-size:0.85rem;line-height:1.5;color:var(--navy)">${f}</span>
+    </div>`
+  ).join('');
+
+  document.getElementById('suitableList').innerHTML = t.audience.split(',').map(a=>
+    `<div style="display:flex;gap:0.75rem;margin-bottom:0.9rem;align-items:center">
+      <span style="width:8px;height:8px;border-radius:50%;background:var(--purple);flex-shrink:0"></span>
+      <span style="font-size:0.9rem;color:var(--navy)">${a.trim()}</span>
+    </div>`
+  ).join('');
+
+  const prev = templates.find(x=>x.id===id-1);
+  const next = templates.find(x=>x.id===id+1);
+  document.getElementById('prevBtn').href = prev ? `template-detail.html?id=${prev.id}` : '#';
+  document.getElementById('prevBtn').style.opacity = prev ? '1' : '0.3';
+  document.getElementById('prevName').textContent = prev ? prev.name : '—';
+  document.getElementById('nextBtn').href = next ? `template-detail.html?id=${next.id}` : '#';
+  document.getElementById('nextBtn').style.opacity = next ? '1' : '0.3';
+  document.getElementById('nextName').textContent = next ? next.name : '—';
+}
+render();
+</script>
+</body>
+</html>

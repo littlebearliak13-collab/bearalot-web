@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin — SLIPKIT</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --purple:#7F77DD;--purple-dark:#534AB7;--purple-light:#EEEDFE;
+  --navy:#1A1A2E;--cream:#FAFAF7;--gray-mid:#888780;--gray-light:#F1EFE8;
+  --green:#1D9E75;--green-light:#E1F5EE;--red:#E24B4A;--red-light:#FCEBEB
+}
+body{font-family:'DM Sans',sans-serif;background:#F0EFF7;color:var(--navy)}
+.admin-layout{display:grid;grid-template-columns:240px 1fr;min-height:100vh}
+.sidebar{background:var(--navy);padding:2rem 1.5rem;display:flex;flex-direction:column;gap:0.5rem;position:sticky;top:0;height:100vh;overflow-y:auto}
+.sidebar-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:1.2rem;color:#fff;margin-bottom:1.5rem;text-decoration:none;display:block}
+.sidebar-logo span{color:var(--purple)}
+.sidebar-section{font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.25);margin:1rem 0 0.4rem 0.75rem}
+.sidebar-item{display:flex;align-items:center;gap:0.75rem;padding:0.6rem 0.75rem;border-radius:10px;font-size:0.85rem;color:rgba(255,255,255,0.55);cursor:pointer;transition:all 0.2s;text-decoration:none;border:none;background:none;width:100%;text-align:left;font-family:'DM Sans',sans-serif}
+.sidebar-item:hover,.sidebar-item.active{background:rgba(127,119,221,0.15);color:#fff}
+.sidebar-item.active{background:rgba(127,119,221,0.2);color:var(--purple)}
+.sidebar-icon{width:18px;text-align:center;font-size:0.9rem;flex-shrink:0}
+.sidebar-back{margin-top:auto;border-top:1px solid rgba(255,255,255,0.07);padding-top:1rem;display:flex;flex-direction:column;gap:0.3rem}
+.admin-main{padding:2.5rem 3rem;overflow-y:auto}
+.admin-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:2rem}
+.admin-title{font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:800;letter-spacing:-0.02em}
+.admin-sub{font-size:0.8rem;color:var(--gray-mid);margin-top:0.25rem}
+.stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:2rem}
+.stat-card{background:#fff;border-radius:16px;padding:1.25rem 1.5rem;border:0.5px solid rgba(127,119,221,0.1)}
+.stat-label{font-size:0.72rem;color:var(--gray-mid);letter-spacing:0.04em;margin-bottom:0.4rem;text-transform:uppercase}
+.stat-value{font-family:'Syne',sans-serif;font-size:1.75rem;font-weight:800;color:var(--navy)}
+.stat-badge{display:inline-block;font-size:0.65rem;padding:0.2rem 0.5rem;border-radius:99px;margin-top:0.3rem;font-weight:500}
+.quick-links{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:2rem}
+.quick-card{background:#fff;border-radius:16px;padding:1.25rem 1.5rem;border:0.5px solid rgba(127,119,221,0.1);text-decoration:none;color:var(--navy);transition:all 0.2s;display:flex;align-items:center;gap:1rem}
+.quick-card:hover{border-color:var(--purple);transform:translateY(-2px);box-shadow:0 8px 24px rgba(127,119,221,0.12)}
+.quick-icon{width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0}
+.quick-label{font-family:'Syne',sans-serif;font-weight:700;font-size:0.85rem}
+.quick-sub{font-size:0.72rem;color:var(--gray-mid);margin-top:0.2rem}
+.upload-card{background:#fff;border-radius:20px;padding:2rem;margin-bottom:1.5rem;border:0.5px solid rgba(127,119,221,0.1)}
+.upload-card h3{font-family:'Syne',sans-serif;font-weight:700;font-size:1rem;margin-bottom:0.25rem}
+.upload-card .sub{font-size:0.8rem;color:var(--gray-mid);margin-bottom:1.5rem}
+.drop-zone{border:2px dashed rgba(127,119,221,0.3);border-radius:16px;padding:2.5rem;text-align:center;cursor:pointer;transition:all 0.2s;background:var(--purple-light)}
+.drop-zone:hover,.drop-zone.dragover{border-color:var(--purple);background:#E8E7FC}
+.drop-icon{font-size:2rem;margin-bottom:0.75rem}
+.drop-title{font-family:'Syne',sans-serif;font-weight:600;font-size:0.95rem;color:var(--purple-dark);margin-bottom:0.3rem}
+.drop-sub{font-size:0.78rem;color:var(--gray-mid)}
+.drop-zone input{display:none}
+.status-bar{display:none;align-items:center;gap:0.6rem;padding:0.75rem 1rem;border-radius:10px;font-size:0.82rem;margin-top:1rem}
+.status-bar.success{display:flex;background:var(--green-light);color:var(--green)}
+.status-bar.error{display:flex;background:var(--red-light);color:var(--red)}
+.table-card{background:#fff;border-radius:20px;border:0.5px solid rgba(127,119,221,0.1);overflow:hidden;margin-bottom:1.5rem}
+.table-header{padding:1.25rem 1.5rem;border-bottom:1px solid var(--gray-light);display:flex;justify-content:space-between;align-items:center}
+.table-header h3{font-family:'Syne',sans-serif;font-weight:700;font-size:0.95rem}
+.btn-add{background:var(--navy);color:#fff;font-size:0.75rem;padding:0.5rem 1rem;border-radius:8px;border:none;cursor:pointer;font-family:'Syne',sans-serif;font-weight:600;transition:all 0.2s}
+.btn-add:hover{background:var(--purple)}
+table{width:100%;border-collapse:collapse;font-size:0.82rem}
+th{padding:0.75rem 1.25rem;text-align:left;font-size:0.68rem;letter-spacing:0.06em;text-transform:uppercase;color:var(--gray-mid);font-weight:500;background:#FAFAF7;border-bottom:1px solid var(--gray-light)}
+td{padding:0.9rem 1.25rem;border-bottom:1px solid var(--gray-light);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:#FAFAF7}
+.tbl-name{font-weight:500;color:var(--navy)}
+.tbl-style{font-size:0.7rem;padding:0.2rem 0.6rem;border-radius:99px}
+.tbl-status{font-size:0.7rem;padding:0.2rem 0.6rem;border-radius:99px}
+.status-active{background:var(--green-light);color:var(--green)}
+.status-draft{background:var(--gray-light);color:var(--gray-mid)}
+.action-btn{background:none;border:none;cursor:pointer;font-size:0.8rem;color:var(--purple);font-family:'Syne',sans-serif;font-weight:600;padding:0.25rem 0.5rem;border-radius:6px;transition:background 0.2s;text-decoration:none;display:inline-block}
+.action-btn:hover{background:var(--purple-light)}
+.action-btn.del{color:var(--red)}
+.action-btn.del:hover{background:var(--red-light)}
+.action-btn.view-tpl{color:var(--gray-mid)}
+.action-btn.view-tpl:hover{background:var(--gray-light);color:var(--navy)}
+.modal-overlay{position:fixed;inset:0;background:rgba(26,26,46,0.5);z-index:200;display:none;align-items:center;justify-content:center}
+.modal-overlay.open{display:flex}
+.modal{background:#fff;border-radius:24px;padding:2rem;width:560px;max-height:85vh;overflow-y:auto}
+.modal h3{font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem;margin-bottom:0.25rem}
+.modal .sub{font-size:0.8rem;color:var(--gray-mid);margin-bottom:1.5rem}
+.form-row{margin-bottom:1rem}
+.form-row label{display:block;font-size:0.75rem;font-weight:500;color:var(--gray-mid);margin-bottom:0.4rem;letter-spacing:0.04em;text-transform:uppercase}
+.form-row input,.form-row select,.form-row textarea{width:100%;padding:0.65rem 0.9rem;border:1px solid var(--gray-light);border-radius:10px;font-size:0.85rem;font-family:'DM Sans',sans-serif;color:var(--navy);background:#fff;transition:border-color 0.2s;outline:none}
+.form-row input:focus,.form-row select:focus,.form-row textarea:focus{border-color:var(--purple)}
+.form-row textarea{resize:vertical;min-height:80px}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.modal-footer{display:flex;gap:0.75rem;margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid var(--gray-light)}
+.btn-save{flex:1;background:var(--navy);color:#fff;padding:0.75rem;border-radius:10px;border:none;font-family:'Syne',sans-serif;font-weight:700;font-size:0.85rem;cursor:pointer;transition:all 0.2s}
+.btn-save:hover{background:var(--purple)}
+.btn-cancel{background:transparent;color:var(--gray-mid);padding:0.75rem 1.5rem;border-radius:10px;border:1px solid var(--gray-light);font-family:'Syne',sans-serif;font-weight:600;font-size:0.85rem;cursor:pointer;transition:all 0.2s}
+.btn-cancel:hover{border-color:var(--navy);color:var(--navy)}
+.toast{position:fixed;bottom:2rem;right:2rem;background:var(--navy);color:#fff;padding:0.75rem 1.25rem;border-radius:12px;font-size:0.82rem;z-index:999;opacity:0;transform:translateY(10px);transition:all 0.3s;pointer-events:none}
+.toast.show{opacity:1;transform:translateY(0)}
+</style>
+</head>
+<body>
+
+<div class="admin-layout">
+  <div class="sidebar">
+    <a href="index.html" class="sidebar-logo">SLIP<span>KIT</span></a>
+
+    <div class="sidebar-section">Admin</div>
+    <button class="sidebar-item active" id="nav-dashboard" onclick="showView('dashboard',this)">
+      <span class="sidebar-icon">◈</span> Dashboard
+    </button>
+    <button class="sidebar-item" id="nav-products" onclick="showView('products',this)">
+      <span class="sidebar-icon">◧</span> Templates
+    </button>
+    <button class="sidebar-item" id="nav-upload" onclick="showView('upload',this)">
+      <span class="sidebar-icon">↑</span> Upload Data
+    </button>
+
+    <div class="sidebar-section">System</div>
+    <button class="sidebar-item" onclick="exportData()">
+      <span class="sidebar-icon">↓</span> Export Excel
+    </button>
+
+    <div class="sidebar-section">เว็บไซต์</div>
+    <a href="index.html" class="sidebar-item">
+      <span class="sidebar-icon">⊞</span> หน้า Templates
+    </a>
+    <a href="about.html" class="sidebar-item">
+      <span class="sidebar-icon">◉</span> หน้า About
+    </a>
+    <a href="template-detail.html?id=1" class="sidebar-item">
+      <span class="sidebar-icon">◧</span> Template Detail
+    </a>
+
+    <div class="sidebar-back">
+      <a href="index.html" class="sidebar-item">
+        <span class="sidebar-icon">←</span> กลับหน้าเว็บ
+      </a>
+    </div>
+  </div>
+
+  <div class="admin-main">
+
+    <!-- DASHBOARD -->
+    <div id="view-dashboard">
+      <div class="admin-header">
+        <div>
+          <div class="admin-title">Dashboard</div>
+          <div class="admin-sub">ภาพรวม SLIPKIT Backend</div>
+        </div>
+        <div style="font-size:0.8rem;color:var(--gray-mid)">วันที่: <strong id="todayDate"></strong></div>
+      </div>
+
+      <div class="stat-grid">
+        <div class="stat-card">
+          <div class="stat-label">Templates ทั้งหมด</div>
+          <div class="stat-value" id="statTotal">0</div>
+          <span class="stat-badge" id="statTotalBadge" style="background:var(--purple-light);color:var(--purple-dark)">—</span>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Active</div>
+          <div class="stat-value" id="statActive">0</div>
+          <span class="stat-badge" id="statActiveBadge" style="background:var(--green-light);color:var(--green)">—</span>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Design Styles</div>
+          <div class="stat-value">6</div>
+          <span class="stat-badge" style="background:var(--purple-light);color:var(--purple-dark)">ครบ 6 สไตล์</span>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Currency Support</div>
+          <div class="stat-value">4</div>
+          <span class="stat-badge" style="background:var(--green-light);color:var(--green)">THB USD EUR GBP</span>
+        </div>
+      </div>
+
+      <!-- Quick links to pages -->
+      <div class="quick-links">
+        <a href="index.html" class="quick-card">
+          <div class="quick-icon" style="background:var(--purple-light)">🏠</div>
+          <div>
+            <div class="quick-label">หน้าหลัก</div>
+            <div class="quick-sub">index.html</div>
+          </div>
+        </a>
+        <a href="about.html" class="quick-card">
+          <div class="quick-icon" style="background:#E1F5EE">📖</div>
+          <div>
+            <div class="quick-label">หน้า About</div>
+            <div class="quick-sub">about.html</div>
+          </div>
+        </a>
+        <a href="template-detail.html?id=1" class="quick-card">
+          <div class="quick-icon" style="background:#FAEEDA">🧾</div>
+          <div>
+            <div class="quick-label">Template Detail</div>
+            <div class="quick-sub">template-detail.html</div>
+          </div>
+        </a>
+      </div>
+
+      <div class="table-card">
+        <div class="table-header">
+          <h3>Templates Overview</h3>
+          <button class="btn-add" onclick="showView('products',document.getElementById('nav-products'))">จัดการ Templates →</button>
+        </div>
+        <table>
+          <thead>
+            <tr><th>ID</th><th>ชื่อ</th><th>สไตล์</th><th>กลุ่มเป้าหมาย</th><th>สถานะ</th><th>ดูหน้าเว็บ</th></tr>
+          </thead>
+          <tbody id="dashTbody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- PRODUCTS -->
+    <div id="view-products" style="display:none">
+      <div class="admin-header">
+        <div>
+          <div class="admin-title">จัดการ Templates</div>
+          <div class="admin-sub">เพิ่ม แก้ไข หรือลบ template ในฐานข้อมูล</div>
+        </div>
+        <button class="btn-add" onclick="openModal(null)">+ เพิ่ม Template</button>
+      </div>
+      <div class="table-card">
+        <div class="table-header"><h3>รายการ Templates ทั้งหมด</h3></div>
+        <table>
+          <thead>
+            <tr><th>ID</th><th>ชื่อ</th><th>สไตล์</th><th>สกุลเงิน</th><th>สถานะ</th><th>จัดการ</th></tr>
+          </thead>
+          <tbody id="productTbody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- UPLOAD -->
+    <div id="view-upload" style="display:none">
+      <div class="admin-header">
+        <div>
+          <div class="admin-title">Upload / Update Database</div>
+          <div class="admin-sub">อัปโหลดไฟล์ productreceipt_export.xlsx เพื่ออัปเดตข้อมูล templates</div>
+        </div>
+      </div>
+
+      <div class="upload-card">
+        <h3>อัปโหลดไฟล์ Excel</h3>
+        <div class="sub">รองรับไฟล์ .xlsx และ .csv — ระบบจะดึงข้อมูลจาก sheet "Products" โดยอัตโนมัติ</div>
+        <div class="drop-zone" id="dropZone"
+          onclick="document.getElementById('fileInput').click()"
+          ondragover="dragOver(event)" ondragleave="dragLeave()" ondrop="dropFile(event)">
+          <input type="file" id="fileInput" accept=".xlsx,.csv" onchange="handleFile(this.files[0])">
+          <div class="drop-icon">📂</div>
+          <div class="drop-title">วางไฟล์ที่นี่ หรือคลิกเพื่อเลือก</div>
+          <div class="drop-sub">productreceipt_export.xlsx · ขนาดสูงสุด 10MB</div>
+        </div>
+        <div class="status-bar" id="statusBar"></div>
+      </div>
+
+      <div class="upload-card">
+        <h3>คำแนะนำโครงสร้างไฟล์</h3>
+        <div class="sub">ไฟล์ .xlsx ต้องมี sheet ชื่อ "Products" และมีคอลัมน์ดังนี้</div>
+        <table style="font-size:0.8rem">
+          <thead><tr><th>คอลัมน์</th><th>ชื่อ Header</th><th>ตัวอย่าง</th></tr></thead>
+          <tbody>
+            <tr><td>A</td><td>Template ID</td><td>TPL-001</td></tr>
+            <tr><td>B</td><td>Template Name</td><td>Aurora Minimal</td></tr>
+            <tr><td>C</td><td>Style</td><td>Minimalist</td></tr>
+            <tr><td>D</td><td>Color Theme</td><td>White + Slate Gray</td></tr>
+            <tr><td>E</td><td>Target Audience</td><td>Freelancer, Designer</td></tr>
+            <tr><td>F</td><td>Description (TH)</td><td>ดีไซน์เรียบง่าย...</td></tr>
+            <tr><td>G</td><td>Description (EN)</td><td>Ultra-clean layout...</td></tr>
+            <tr><td>H</td><td>Currency Support</td><td>THB, USD, EUR</td></tr>
+            <tr><td>I</td><td>Tax Field</td><td>Yes / No</td></tr>
+            <tr><td>J</td><td>Logo Field</td><td>Yes / No</td></tr>
+            <tr><td>K</td><td>Download Count</td><td>0</td></tr>
+            <tr><td>L</td><td>Status</td><td>Active / Draft</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
+  <div class="modal">
+    <h3 id="modalTitle">เพิ่ม Template ใหม่</h3>
+    <div class="sub" id="modalSub">กรอกข้อมูล template ที่ต้องการเพิ่มเข้าระบบ</div>
+    <div class="form-grid">
+      <div class="form-row"><label>Template ID</label><input id="fId" placeholder="TPL-007"></div>
+      <div class="form-row"><label>ชื่อ Template</label><input id="fName" placeholder="Aurora Minimal"></div>
+    </div>
+    <div class="form-grid">
+      <div class="form-row"><label>สไตล์</label>
+        <select id="fStyle">
+          <option>Minimalist</option><option>Colorful / Vibrant</option><option>Dark / Premium</option>
+          <option>Retro / Vintage</option><option>Corporate / B2B</option><option>Playful / Creative</option>
+        </select>
+      </div>
+      <div class="form-row"><label>สถานะ</label>
+        <select id="fStatus"><option>Active</option><option>Draft</option></select>
+      </div>
+    </div>
+    <div class="form-row"><label>Color Theme</label><input id="fColor" placeholder="White + Slate Gray"></div>
+    <div class="form-row"><label>กลุ่มเป้าหมาย</label><input id="fAudience" placeholder="Freelancer, Designer, Startup"></div>
+    <div class="form-row"><label>Currency Support</label><input id="fCurrency" placeholder="THB, USD, EUR"></div>
+    <div class="form-grid">
+      <div class="form-row"><label>Tax Field</label>
+        <select id="fTax"><option>Yes</option><option>No</option></select>
+      </div>
+      <div class="form-row"><label>Logo Field</label>
+        <select id="fLogo"><option>Yes</option><option>No</option></select>
+      </div>
+    </div>
+    <div class="form-row"><label>คำอธิบาย (TH)</label><textarea id="fDescTH" placeholder="ดีไซน์เรียบง่าย..."></textarea></div>
+    <div class="form-row"><label>คำอธิบาย (EN)</label><textarea id="fDescEN" placeholder="Ultra-clean layout..."></textarea></div>
+    <div class="modal-footer">
+      <button class="btn-cancel" onclick="closeModal()">ยกเลิก</button>
+      <button class="btn-save" onclick="saveModal()">บันทึก</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+let data = [
+  {id:'TPL-001',name:'Aurora Minimal',style:'Minimalist',color:'White + Slate Gray',audience:'Freelancer, Designer, Startup',descTH:'ดีไซน์เรียบง่าย สะอาด',descEN:'Ultra-clean layout',currency:'THB, USD, EUR, GBP',tax:'Yes',logo:'Yes',downloads:0,status:'Active',detailId:1},
+  {id:'TPL-002',name:'Vivid Pop',style:'Colorful / Vibrant',color:'Coral + Yellow + Teal',audience:'Retail, Food & Bev',descTH:'สีสันสดใส มีชีวิตชีวา',descEN:'Bold color blocking',currency:'THB, USD',tax:'Yes',logo:'Yes',downloads:0,status:'Active',detailId:2},
+  {id:'TPL-003',name:'Onyx Premium',style:'Dark / Premium',color:'Charcoal + Gold',audience:'Luxury Brand, Agency',descTH:'โทนสีเข้มหรูหรา',descEN:'Dark background with gold',currency:'THB, USD, EUR',tax:'Yes',logo:'Yes',downloads:0,status:'Active',detailId:3},
+  {id:'TPL-004',name:'Nostalgic Press',style:'Retro / Vintage',color:'Cream + Brown',audience:'Café, Artisan',descTH:'กลิ่นอายวินเทจ',descEN:'Warm vintage typography',currency:'THB, USD',tax:'No',logo:'Yes',downloads:0,status:'Active',detailId:4},
+  {id:'TPL-005',name:'Blueprint Pro',style:'Corporate / B2B',color:'Navy + White',audience:'Corporate, Consulting',descTH:'ดีไซน์มืออาชีพ',descEN:'Clean corporate layout',currency:'THB, USD, EUR, JPY',tax:'Yes',logo:'Yes',downloads:0,status:'Active',detailId:5},
+  {id:'TPL-006',name:'Doodle Studio',style:'Playful / Creative',color:'Lavender + Peach',audience:'Kids Brand, Event',descTH:'สนุกสนาน มีชีวิต',descEN:'Playful hand-drawn elements',currency:'THB, USD',tax:'No',logo:'Yes',downloads:0,status:'Active',detailId:6}
+];
+let editIndex = null;
+const styleColors = {
+  'Minimalist':'#EEEDFE|#534AB7','Colorful / Vibrant':'#FAECE7|#712B13',
+  'Dark / Premium':'#2C2C2A|#D3D1C7','Retro / Vintage':'#FAEEDA|#633806',
+  'Corporate / B2B':'#E6F1FB|#0C447C','Playful / Creative':'#FBEAF0|#72243E'
+};
+
+function showView(name,btn){
+  ['dashboard','products','upload'].forEach(v=>{
+    document.getElementById('view-'+v).style.display=v===name?'':'none';
+  });
+  document.querySelectorAll('.sidebar-item').forEach(el=>el.classList.remove('active'));
+  if(btn)btn.classList.add('active');
+  if(name==='dashboard')renderDash();
+  if(name==='products')renderProducts();
+}
+
+function renderDash(){
+  document.getElementById('dashTbody').innerHTML=data.map(d=>`<tr>
+    <td style="color:var(--gray-mid);font-size:0.75rem">${d.id}</td>
+    <td><span class="tbl-name">${d.name}</span></td>
+    <td>${styleTag(d.style)}</td>
+    <td style="font-size:0.78rem;color:var(--gray-mid)">${d.audience}</td>
+    <td>${statusTag(d.status)}</td>
+    <td><a href="template-detail.html?id=${d.detailId}" class="action-btn view-tpl" target="_blank">ดูหน้าเว็บ ↗</a></td>
+  </tr>`).join('');
+  const total=data.length, active=data.filter(d=>d.status==='Active').length;
+  document.getElementById('statTotal').textContent=total;
+  document.getElementById('statActive').textContent=active;
+  document.getElementById('statTotalBadge').textContent=`+${total} template`;
+  document.getElementById('statActiveBadge').textContent=total>0?`${Math.round(active/total*100)}% online`:'0% online';
+}
+
+function renderProducts(){
+  document.getElementById('productTbody').innerHTML=data.map((d,i)=>`<tr>
+    <td style="color:var(--gray-mid);font-size:0.75rem">${d.id}</td>
+    <td><span class="tbl-name">${d.name}</span></td>
+    <td>${styleTag(d.style)}</td>
+    <td style="font-size:0.75rem">${d.currency}</td>
+    <td>${statusTag(d.status)}</td>
+    <td>
+      <a href="template-detail.html?id=${d.detailId}" class="action-btn view-tpl" target="_blank">ดู ↗</a>
+      <button class="action-btn" onclick="openModal(${i})">แก้ไข</button>
+      <button class="action-btn del" onclick="delRow(${i})">ลบ</button>
+    </td>
+  </tr>`).join('');
+}
+
+function styleTag(s){const[bg,col]=(styleColors[s]||'#EEEDFE|#534AB7').split('|');return`<span class="tbl-style" style="background:${bg};color:${col}">${s}</span>`}
+function statusTag(s){return s==='Active'?`<span class="tbl-status status-active">Active</span>`:`<span class="tbl-status status-draft">Draft</span>`}
+
+function openModal(i){
+  editIndex=i;
+  const d=i!==null?data[i]:{};
+  document.getElementById('modalTitle').textContent=i!==null?'แก้ไข Template':'เพิ่ม Template ใหม่';
+  document.getElementById('modalSub').textContent=i!==null?`กำลังแก้ไข: ${d.name}`:'กรอกข้อมูล template ที่ต้องการเพิ่ม';
+  ['Id','Name','Color','Audience','Currency','DescTH','DescEN'].forEach(k=>{
+    document.getElementById('f'+k).value=d[k.charAt(0).toLowerCase()+k.slice(1)]||'';
+  });
+  document.getElementById('fStyle').value=d.style||'Minimalist';
+  document.getElementById('fStatus').value=d.status||'Active';
+  document.getElementById('fTax').value=d.tax||'Yes';
+  document.getElementById('fLogo').value=d.logo||'Yes';
+  document.getElementById('modalOverlay').classList.add('open');
+}
+function closeModal(){document.getElementById('modalOverlay').classList.remove('open')}
+function handleOverlayClick(e){if(e.target===document.getElementById('modalOverlay'))closeModal()}
+
+function saveModal(){
+  const entry={
+    id:document.getElementById('fId').value,
+    name:document.getElementById('fName').value,
+    style:document.getElementById('fStyle').value,
+    color:document.getElementById('fColor').value,
+    audience:document.getElementById('fAudience').value,
+    descTH:document.getElementById('fDescTH').value,
+    descEN:document.getElementById('fDescEN').value,
+    currency:document.getElementById('fCurrency').value,
+    tax:document.getElementById('fTax').value,
+    logo:document.getElementById('fLogo').value,
+    downloads:editIndex!==null?data[editIndex].downloads:0,
+    status:document.getElementById('fStatus').value,
+    detailId:editIndex!==null?data[editIndex].detailId:data.length+1
+  };
+  if(!entry.name){alert('กรุณากรอกชื่อ Template');return;}
+  if(editIndex!==null){data[editIndex]=entry;showToast(`✓ อัปเดต "${entry.name}" แล้ว`)}
+  else{data.push(entry);showToast(`✓ เพิ่ม "${entry.name}" สำเร็จ`)}
+  closeModal();renderProducts();
+}
+
+function delRow(i){
+  if(confirm(`ยืนยันลบ "${data[i].name}"?`)){
+    const n=data[i].name;data.splice(i,1);renderProducts();showToast(`🗑 ลบ "${n}" แล้ว`);
+  }
+}
+
+function dragOver(e){e.preventDefault();document.getElementById('dropZone').classList.add('dragover')}
+function dragLeave(){document.getElementById('dropZone').classList.remove('dragover')}
+function dropFile(e){e.preventDefault();dragLeave();handleFile(e.dataTransfer.files[0])}
+function handleFile(file){
+  if(!file)return;
+  const bar=document.getElementById('statusBar');
+  bar.className='status-bar';
+  if(!file.name.match(/\.(xlsx|csv)$/i)){bar.className='status-bar error';bar.textContent='❌ รองรับเฉพาะ .xlsx และ .csv เท่านั้น';return;}
+  const reader=new FileReader();
+  reader.onload=e=>{
+    try{
+      const wb=XLSX.read(e.target.result,{type:'array'});
+      const sheet=wb.Sheets['Products']||wb.Sheets[wb.SheetNames[0]];
+      const rows=XLSX.utils.sheet_to_json(sheet);
+      if(rows.length>0){
+        data=rows.map((r,i)=>({
+          id:r['Template ID']||'',name:r['Template Name']||'',style:r['Style']||'',
+          color:r['Color Theme']||'',audience:r['Target Audience']||'',
+          descTH:r['Description (TH)']||'',descEN:r['Description (EN)']||'',
+          currency:r['Currency Support']||'',tax:r['Tax Field']||'Yes',
+          logo:r['Logo Field']||'Yes',downloads:r['Download Count']||0,
+          status:r['Status']||'Active',detailId:i+1
+        }));
+        bar.className='status-bar success';
+        bar.textContent=`✓ อัปโหลดสำเร็จ! พบข้อมูล ${data.length} templates จากไฟล์ ${file.name}`;
+        renderDash();
+      } else {bar.className='status-bar error';bar.textContent='❌ ไม่พบข้อมูลในไฟล์'}
+    }catch{bar.className='status-bar error';bar.textContent='❌ ไม่สามารถอ่านไฟล์ได้'}
+  };
+  reader.readAsArrayBuffer(file);
+}
+
+function exportData(){
+  const wb=XLSX.utils.book_new();
+  const ws=XLSX.utils.json_to_sheet(data.map(d=>({
+    'Template ID':d.id,'Template Name':d.name,'Style':d.style,'Color Theme':d.color,
+    'Target Audience':d.audience,'Description (TH)':d.descTH,'Description (EN)':d.descEN,
+    'Currency Support':d.currency,'Tax Field':d.tax,'Logo Field':d.logo,
+    'Download Count':d.downloads,'Status':d.status
+  })));
+  XLSX.utils.book_append_sheet(wb,ws,'Products');
+  XLSX.writeFile(wb,'productreceipt_export.xlsx');
+  showToast('↓ Export Excel สำเร็จ!');
+}
+
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2800);
+}
+
+document.getElementById('todayDate').textContent=new Date().toLocaleDateString('th-TH',{year:'numeric',month:'long',day:'numeric'});
+renderDash();
+</script>
+</body>
+</html>

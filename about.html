@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About Us — SLIPKIT</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--purple:#7F77DD;--purple-dark:#534AB7;--purple-light:#EEEDFE;--navy:#1A1A2E;--cream:#FAFAF7;--gray-mid:#888780;--gray-light:#F1EFE8}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--navy)}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1.2rem 4rem;display:flex;justify-content:space-between;align-items:center;background:rgba(250,250,247,0.88);backdrop-filter:blur(16px);border-bottom:1px solid rgba(127,119,221,0.12)}
+.nav-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:1.4rem;color:var(--navy);letter-spacing:-0.02em;text-decoration:none}
+.nav-logo span{color:var(--purple)}
+.nav-links{display:flex;gap:2.5rem;list-style:none}
+.nav-links a{font-size:0.875rem;color:var(--gray-mid);text-decoration:none;transition:color 0.2s}
+.nav-links a:hover,.nav-links a.active{color:var(--purple)}
+.nav-cta{background:var(--navy);color:#fff;font-size:0.8rem;letter-spacing:0.06em;text-transform:uppercase;padding:0.6rem 1.4rem;border-radius:99px;text-decoration:none;font-family:'Syne',sans-serif;font-weight:600}
+
+/* HERO */
+.about-hero{padding:9rem 4rem 5rem;max-width:900px}
+.about-tag{display:inline-flex;align-items:center;gap:0.4rem;background:var(--purple-light);color:var(--purple-dark);font-size:0.7rem;letter-spacing:0.08em;text-transform:uppercase;padding:0.3rem 0.8rem;border-radius:99px;font-family:'Syne',sans-serif;font-weight:600;margin-bottom:1.2rem}
+.about-hero h1{font-family:'Syne',sans-serif;font-size:clamp(2.5rem,5vw,3.8rem);font-weight:800;letter-spacing:-0.03em;line-height:1.1;margin-bottom:1.5rem}
+.about-hero h1 em{font-style:normal;color:var(--purple)}
+.about-hero p{font-size:1.1rem;line-height:1.75;color:var(--gray-mid);max-width:680px;font-weight:300}
+
+/* STORY */
+.story-section{padding:5rem 4rem;background:#fff;display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center}
+.story-text h2{font-family:'Syne',sans-serif;font-size:1.8rem;font-weight:800;letter-spacing:-0.02em;margin-bottom:1.25rem;line-height:1.2}
+.story-text p{font-size:0.95rem;line-height:1.8;color:var(--gray-mid);margin-bottom:1rem}
+.story-visual{background:var(--navy);border-radius:24px;padding:2.5rem;min-height:360px;display:flex;flex-direction:column;justify-content:space-between}
+.sv-quote{font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:700;color:#fff;line-height:1.4;letter-spacing:-0.01em}
+.sv-quote em{color:var(--purple);font-style:normal}
+.sv-meta{font-size:0.8rem;color:rgba(255,255,255,0.35);margin-top:1rem}
+
+/* VALUES */
+.values-section{padding:5rem 4rem;background:var(--cream)}
+.values-tag{font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--purple);font-family:'Syne',sans-serif;font-weight:600;margin-bottom:0.5rem}
+.values-title{font-family:'Syne',sans-serif;font-size:2rem;font-weight:800;letter-spacing:-0.02em;margin-bottom:3rem}
+.values-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+.value-card{background:#fff;border-radius:20px;padding:2rem;border:0.5px solid rgba(127,119,221,0.1)}
+.value-icon{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;margin-bottom:1.2rem}
+.value-title{font-family:'Syne',sans-serif;font-weight:700;font-size:1rem;margin-bottom:0.5rem}
+.value-desc{font-size:0.83rem;color:var(--gray-mid);line-height:1.7}
+
+/* NUMBERS */
+.numbers-section{padding:5rem 4rem;background:var(--purple);display:grid;grid-template-columns:repeat(4,1fr);gap:2rem}
+.number-item{text-align:center}
+.number-big{font-family:'Syne',sans-serif;font-size:3rem;font-weight:800;color:#fff;line-height:1}
+.number-label{font-size:0.8rem;color:rgba(255,255,255,0.6);margin-top:0.5rem;letter-spacing:0.04em}
+
+/* MISSION VISION */
+.mv-section{padding:5rem 4rem;background:#fff;display:grid;grid-template-columns:1fr 1fr;gap:3rem}
+.mv-card{border-radius:20px;padding:2.5rem}
+.mv-card.mission{background:var(--navy)}
+.mv-card.vision{background:var(--cream);border:0.5px solid rgba(127,119,221,0.12)}
+.mv-label{font-size:0.7rem;letter-spacing:0.12em;text-transform:uppercase;font-family:'Syne',sans-serif;font-weight:600;margin-bottom:1rem}
+.mv-card.mission .mv-label{color:rgba(127,119,221,0.7)}
+.mv-card.vision .mv-label{color:var(--purple)}
+.mv-title{font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:800;line-height:1.3;margin-bottom:1rem}
+.mv-card.mission .mv-title{color:#fff}
+.mv-desc{font-size:0.9rem;line-height:1.75}
+.mv-card.mission .mv-desc{color:rgba(255,255,255,0.55)}
+.mv-card.vision .mv-desc{color:var(--gray-mid)}
+
+/* CTA */
+.about-cta{padding:5rem 4rem;background:var(--cream);text-align:center}
+.about-cta h2{font-family:'Syne',sans-serif;font-size:2rem;font-weight:800;letter-spacing:-0.02em;margin-bottom:1rem}
+.about-cta p{font-size:0.95rem;color:var(--gray-mid);max-width:500px;margin:0 auto 2rem;line-height:1.7}
+.btn-primary{background:var(--navy);color:#fff;padding:0.9rem 2.2rem;border-radius:99px;text-decoration:none;font-family:'Syne',sans-serif;font-weight:700;font-size:0.85rem;letter-spacing:0.04em;transition:all 0.25s;display:inline-block}
+.btn-primary:hover{background:var(--purple);transform:translateY(-2px)}
+
+footer{background:var(--navy);color:rgba(255,255,255,0.45);padding:3rem 4rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
+.footer-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem;color:#fff}
+.footer-logo span{color:var(--purple)}
+.footer-links{display:flex;gap:2rem}
+.footer-links a{color:rgba(255,255,255,0.4);text-decoration:none;font-size:0.8rem;transition:color 0.2s}
+.footer-links a:hover{color:var(--purple)}
+
+@media(max-width:900px){
+  nav{padding:1rem 1.5rem}
+  .about-hero,.story-section,.values-section,.mv-section,.about-cta,footer{padding-left:1.5rem;padding-right:1.5rem}
+  .story-section,.mv-section{grid-template-columns:1fr}
+  .values-grid{grid-template-columns:1fr}
+  .numbers-section{grid-template-columns:1fr 1fr;padding:3rem 1.5rem}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">SLIP<span>KIT</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Templates</a></li>
+    <li><a href="about.html" class="active">About</a></li>
+    <li><a href="admin.html">Admin</a></li>
+  </ul>
+  <a href="index.html#templates" class="nav-cta">ดู Templates →</a>
+</nav>
+
+<div class="about-hero">
+  <div class="about-tag">About SLIPKIT</div>
+  <h1>เพราะทุก<em>ใบเสร็จ</em><br>สื่อถึงคุณค่าของธุรกิจ</h1>
+  <p>SLIPKIT เกิดขึ้นจากความเชื่อว่าเอกสารทางธุรกิจไม่ควรน่าเบื่อ ใบเสร็จรับเงินคือสิ่งสุดท้ายที่ลูกค้าเห็นจากคุณ — มันควรสร้างความประทับใจที่ดี</p>
+</div>
+
+<div class="story-section">
+  <div class="story-text">
+    <h2>เรื่องราวของ SLIPKIT</h2>
+    <p>SLIPKIT เริ่มต้นจาก solopreneur ที่เบื่อกับใบเสร็จรับเงินน่าเบื่อที่ใช้กันอยู่ในตลาด แม้ว่าธุรกิจจะดูแลทุกรายละเอียดในการให้บริการ แต่ใบเสร็จกลับเป็นสิ่งที่ถูกมองข้ามเสมอ</p>
+    <p>เราเชื่อว่าธุรกิจทุกขนาด ไม่ว่าจะเป็น freelancer, SME หรือ agency ล้วนสมควรได้ใช้เอกสารที่สวยงาม มืออาชีพ และตรงกับ brand identity ของตัวเอง</p>
+    <p>จึงเกิด SLIPKIT ขึ้นมา — เป็น toolkit ที่รวบรวม receipt templates คุณภาพสูง 6 สไตล์ ให้ดาวน์โหลดและใช้งานได้ฟรี</p>
+  </div>
+  <div class="story-visual">
+    <div>
+      <div style="font-size:2.5rem;margin-bottom:1rem">✦</div>
+      <div class="sv-quote">"ใบเสร็จที่ดี<em>ไม่ใช่แค่</em>เอกสาร — มันคือ brand touchpoint สุดท้ายที่ลูกค้าจะจำคุณ"</div>
+    </div>
+    <div class="sv-meta">— SLIPKIT Philosophy, 2026</div>
+  </div>
+</div>
+
+<div class="values-section">
+  <div class="values-tag">Core Values</div>
+  <div class="values-title">สิ่งที่เราเชื่อ</div>
+  <div class="values-grid">
+    <div class="value-card">
+      <div class="value-icon" style="background:#EEEDFE">✦</div>
+      <div class="value-title">Design First</div>
+      <div class="value-desc">ดีไซน์ไม่ใช่แค่ความสวยงาม แต่คือการสื่อสาร ทุก template ถูกออกแบบด้วยเหตุผลและความตั้งใจ</div>
+    </div>
+    <div class="value-card">
+      <div class="value-icon" style="background:#E1F5EE">⚡</div>
+      <div class="value-title">Easy to Use</div>
+      <div class="value-desc">เราเชื่อว่าของดีต้องใช้งานง่าย ทุก template พร้อมใช้ทันที ไม่ต้องมีทักษะ design ก็ทำได้</div>
+    </div>
+    <div class="value-card">
+      <div class="value-icon" style="background:#FAEEDA">∞</div>
+      <div class="value-title">Free Forever</div>
+      <div class="value-desc">templates ทั้งหมดฟรี 100% ไม่มีค่าใช้จ่ายซ่อนเร้น เพราะเราอยากให้ธุรกิจทุกขนาดเข้าถึงได้</div>
+    </div>
+  </div>
+</div>
+
+<div class="numbers-section">
+  <div class="number-item">
+    <div class="number-big">6</div>
+    <div class="number-label">Receipt Templates</div>
+  </div>
+  <div class="number-item">
+    <div class="number-big">6</div>
+    <div class="number-label">Design Styles</div>
+  </div>
+  <div class="number-item">
+    <div class="number-big">100%</div>
+    <div class="number-label">ฟรีทั้งหมด</div>
+  </div>
+  <div class="number-item">
+    <div class="number-big">∞</div>
+    <div class="number-label">Commercial Use</div>
+  </div>
+</div>
+
+<div class="mv-section">
+  <div class="mv-card mission">
+    <div class="mv-label">Mission</div>
+    <div class="mv-title">ทำให้ใบเสร็จรับเงินกลายเป็นเครื่องมือสื่อสาร brand ที่ทรงพลัง</div>
+    <div class="mv-desc">เราสร้าง receipt templates คุณภาพสูงที่ช่วยให้ธุรกิจทุกขนาดส่งมอบประสบการณ์ที่ดีให้ลูกค้า ตั้งแต่ใบเสร็จชิ้นแรกถึงชิ้นล้าน</div>
+  </div>
+  <div class="mv-card vision">
+    <div class="mv-label">Vision</div>
+    <div class="mv-title">เป็น go-to platform สำหรับ receipt & document templates ในเอเชียตะวันออกเฉียงใต้</div>
+    <div class="mv-desc">ภายในปี 2028 SLIPKIT จะเป็นที่แรกที่ SME, Freelancer และ Designer ในภูมิภาคนึกถึง เมื่อต้องการ template เอกสารคุณภาพสูง</div>
+  </div>
+</div>
+
+<div class="about-cta">
+  <h2>พร้อมเริ่มต้นแล้วหรือยัง?</h2>
+  <p>เลือก template ที่ตรงกับ brand และธุรกิจของคุณ ดาวน์โหลดฟรี ใช้งานได้ทันที</p>
+  <a href="index.html#templates" class="btn-primary">ดู Templates ทั้งหมด →</a>
+</div>
+
+<footer>
+  <div class="footer-logo">SLIP<span>KIT</span></div>
+  <div class="footer-links">
+    <a href="index.html">Templates</a>
+    <a href="about.html">About</a>
+    <a href="admin.html">Admin</a>
+  </div>
+  <div style="font-size:0.75rem">© 2026 SLIPKIT</div>
+</footer>
+
+</body>
+</html>
