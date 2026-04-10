@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SLIPKIT — Your Receipt Toolkit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --purple:#7F77DD;
+  --purple-dark:#534AB7;
+  --purple-light:#EEEDFE;
+  --navy:#1A1A2E;
+  --navy-mid:#16213E;
+  --cream:#FAFAF7;
+  --gray-mid:#888780;
+  --gray-light:#F1EFE8;
+  --coral:#D85A30;
+  --gold:#EF9F27;
+  --text:#1A1A2E;
+  --text-muted:#888780;
+}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text);overflow-x:hidden}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1.2rem 4rem;display:flex;justify-content:space-between;align-items:center;background:rgba(250,250,247,0.88);backdrop-filter:blur(16px);border-bottom:1px solid rgba(127,119,221,0.12)}
+.nav-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:1.4rem;color:var(--navy);letter-spacing:-0.02em;text-decoration:none}
+.nav-logo span{color:var(--purple)}
+.nav-links{display:flex;gap:2.5rem;list-style:none}
+.nav-links a{font-size:0.875rem;color:var(--text-muted);text-decoration:none;letter-spacing:0.02em;transition:color 0.2s}
+.nav-links a:hover{color:var(--purple)}
+.nav-cta{background:var(--navy);color:#fff;font-size:0.8rem;letter-spacing:0.06em;text-transform:uppercase;padding:0.6rem 1.4rem;border-radius:99px;text-decoration:none;font-family:'Syne',sans-serif;font-weight:600;transition:background 0.2s}
+.nav-cta:hover{background:var(--purple)}
+
+/* HERO */
+.hero{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;align-items:center;padding:8rem 4rem 4rem;gap:4rem;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-200px;right:-200px;width:700px;height:700px;border-radius:50%;background:radial-gradient(circle,rgba(127,119,221,0.12) 0%,transparent 70%);pointer-events:none}
+.hero-tag{display:inline-flex;align-items:center;gap:0.5rem;background:var(--purple-light);color:var(--purple-dark);font-size:0.75rem;letter-spacing:0.08em;text-transform:uppercase;padding:0.4rem 1rem;border-radius:99px;font-family:'Syne',sans-serif;font-weight:600;margin-bottom:1.5rem}
+.hero-tag::before{content:'';width:6px;height:6px;background:var(--purple);border-radius:50%}
+h1{font-family:'Syne',sans-serif;font-size:clamp(2.8rem,5vw,4.2rem);font-weight:800;line-height:1.08;letter-spacing:-0.03em;margin-bottom:1.5rem}
+h1 em{font-style:normal;color:var(--purple)}
+.hero-sub{font-size:1.05rem;line-height:1.7;color:var(--text-muted);max-width:440px;margin-bottom:2.5rem;font-weight:300}
+.hero-btns{display:flex;gap:1rem;flex-wrap:wrap}
+.btn-primary{background:var(--navy);color:#fff;padding:0.85rem 2rem;border-radius:99px;text-decoration:none;font-family:'Syne',sans-serif;font-weight:600;font-size:0.85rem;letter-spacing:0.04em;transition:all 0.25s}
+.btn-primary:hover{background:var(--purple);transform:translateY(-2px)}
+.btn-secondary{border:1.5px solid var(--navy);color:var(--navy);padding:0.85rem 2rem;border-radius:99px;text-decoration:none;font-family:'Syne',sans-serif;font-weight:600;font-size:0.85rem;letter-spacing:0.04em;transition:all 0.25s}
+.btn-secondary:hover{border-color:var(--purple);color:var(--purple);transform:translateY(-2px)}
+.hero-stats{display:flex;gap:2.5rem;margin-top:3rem;padding-top:2rem;border-top:1px solid rgba(127,119,221,0.2)}
+.stat-item{}
+.stat-num{font-family:'Syne',sans-serif;font-size:1.8rem;font-weight:800;color:var(--navy)}
+.stat-label{font-size:0.78rem;color:var(--text-muted);letter-spacing:0.04em;margin-top:0.2rem}
+
+/* HERO VISUAL */
+.hero-visual{position:relative;height:520px}
+.receipt-float{position:absolute;background:#fff;border-radius:16px;box-shadow:0 20px 60px rgba(26,26,46,0.12);padding:1.5rem;transition:transform 0.3s}
+.receipt-float:hover{transform:scale(1.03) rotate(0deg)!important}
+.rf1{width:240px;top:20px;left:60px;transform:rotate(-4deg);z-index:3}
+.rf2{width:220px;top:80px;right:20px;transform:rotate(3deg);z-index:2}
+.rf3{width:200px;bottom:60px;left:20px;transform:rotate(2deg);z-index:1}
+.receipt-label{font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-muted);margin-bottom:0.6rem}
+.receipt-logo-row{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1rem}
+.receipt-brand{font-family:'Syne',sans-serif;font-weight:800;font-size:0.9rem}
+.receipt-badge{font-size:0.55rem;background:var(--purple-light);color:var(--purple-dark);padding:0.2rem 0.5rem;border-radius:99px;font-weight:600}
+.receipt-divider{height:1px;background:var(--gray-light);margin:0.6rem 0}
+.receipt-row{display:flex;justify-content:space-between;font-size:0.68rem;padding:0.25rem 0;color:var(--text-muted)}
+.receipt-row.total{font-family:'Syne',sans-serif;font-weight:700;color:var(--navy);font-size:0.78rem;border-top:1.5px solid var(--navy);margin-top:0.3rem;padding-top:0.4rem}
+.accent-blob{position:absolute;width:160px;height:160px;border-radius:50%;opacity:0.15;pointer-events:none}
+.ab1{background:var(--purple);bottom:100px;right:60px}
+.ab2{background:var(--gold);top:40px;right:160px;width:80px;height:80px}
+
+/* TEMPLATES SECTION */
+.templates-section{padding:6rem 4rem;background:#fff}
+.section-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:3rem}
+.section-tag{font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--purple);font-family:'Syne',sans-serif;font-weight:600;margin-bottom:0.5rem}
+.section-title{font-family:'Syne',sans-serif;font-size:2rem;font-weight:800;letter-spacing:-0.02em;line-height:1.15}
+.section-link{font-size:0.8rem;color:var(--text-muted);text-decoration:none;border-bottom:1px solid var(--gray-mid);padding-bottom:1px;transition:color 0.2s}
+.section-link:hover{color:var(--purple)}
+
+/* SLIDER */
+.slider-wrapper{position:relative;overflow:hidden}
+.templates-grid{display:flex;gap:1.5rem;transition:transform 0.5s cubic-bezier(0.25,0.46,0.45,0.94)}
+.template-card{min-width:calc(33.33% - 1rem);background:var(--cream);border-radius:20px;overflow:hidden;cursor:pointer;text-decoration:none;color:inherit;transition:transform 0.3s,box-shadow 0.3s;flex-shrink:0}
+.template-card:hover{transform:translateY(-6px);box-shadow:0 24px 60px rgba(26,26,46,0.1)}
+.card-preview{height:260px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.card-body{padding:1.25rem 1.5rem 1.5rem}
+.card-style{font-size:0.68rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-muted);font-weight:500;margin-bottom:0.3rem}
+.card-name{font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem;margin-bottom:0.5rem}
+.card-desc{font-size:0.82rem;color:var(--text-muted);line-height:1.6}
+.card-footer{display:flex;justify-content:space-between;align-items:center;margin-top:1rem}
+.card-tags{display:flex;gap:0.4rem}
+.tag{font-size:0.65rem;padding:0.25rem 0.6rem;border-radius:99px;font-weight:500}
+.view-link{font-size:0.75rem;color:var(--purple);font-family:'Syne',sans-serif;font-weight:600;display:flex;align-items:center;gap:0.3rem}
+
+/* Mini Receipt Previews inside cards */
+.mini-receipt{background:#fff;border-radius:10px;padding:1rem;width:160px;box-shadow:0 8px 24px rgba(0,0,0,0.08)}
+.mr-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:0.75rem;margin-bottom:0.5rem}
+.mr-line{height:1px;background:#eee;margin:0.4rem 0}
+.mr-row{display:flex;justify-content:space-between;font-size:0.55rem;color:#888;padding:0.15rem 0}
+.mr-total{font-family:'Syne',sans-serif;font-weight:700;font-size:0.65rem;display:flex;justify-content:space-between;border-top:1px solid #222;padding-top:0.3rem;margin-top:0.2rem}
+
+/* Slider controls */
+.slider-controls{display:flex;gap:0.75rem;margin-top:2rem;justify-content:center}
+.slider-btn{width:40px;height:40px;border-radius:50%;border:1.5px solid var(--navy);background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.2s;font-size:1rem;color:var(--navy)}
+.slider-btn:hover{background:var(--navy);color:#fff}
+.slider-dots{display:flex;gap:0.5rem;align-items:center}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--gray-mid);transition:all 0.3s;cursor:pointer}
+.dot.active{background:var(--purple);width:24px;border-radius:99px}
+
+/* HOW IT WORKS */
+.how-section{padding:6rem 4rem;background:var(--navy);color:#fff}
+.how-section .section-tag{color:#7F77DD}
+.how-section .section-title{color:#fff}
+.steps-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;margin-top:3rem}
+.step-card{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:2rem}
+.step-num{font-family:'Syne',sans-serif;font-size:2.5rem;font-weight:800;color:rgba(127,119,221,0.3);margin-bottom:1rem}
+.step-title{font-family:'Syne',sans-serif;font-weight:700;font-size:1.05rem;margin-bottom:0.6rem}
+.step-desc{font-size:0.85rem;color:rgba(255,255,255,0.55);line-height:1.7}
+
+/* CTA BAND */
+.cta-band{padding:5rem 4rem;background:var(--purple);display:flex;justify-content:space-between;align-items:center;gap:2rem;flex-wrap:wrap}
+.cta-band h2{font-family:'Syne',sans-serif;font-size:2rem;font-weight:800;color:#fff;letter-spacing:-0.02em;max-width:500px;line-height:1.2}
+.btn-white{background:#fff;color:var(--purple-dark);padding:0.9rem 2.2rem;border-radius:99px;text-decoration:none;font-family:'Syne',sans-serif;font-weight:700;font-size:0.85rem;letter-spacing:0.04em;transition:all 0.25s}
+.btn-white:hover{background:var(--navy);color:#fff;transform:translateY(-2px)}
+
+/* FOOTER */
+footer{background:var(--navy);color:rgba(255,255,255,0.45);padding:3rem 4rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
+.footer-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem;color:#fff}
+.footer-logo span{color:var(--purple)}
+.footer-links{display:flex;gap:2rem}
+.footer-links a{color:rgba(255,255,255,0.4);text-decoration:none;font-size:0.8rem;transition:color 0.2s}
+.footer-links a:hover{color:var(--purple)}
+
+/* ANIMATIONS */
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+.hero-text>*{animation:fadeUp 0.6s ease both}
+.hero-tag{animation-delay:0.1s}.hero-text h1{animation-delay:0.2s}.hero-sub{animation-delay:0.3s}.hero-btns{animation-delay:0.4s}.hero-stats{animation-delay:0.5s}
+@keyframes floatA{0%,100%{transform:rotate(-4deg) translateY(0)}50%{transform:rotate(-4deg) translateY(-10px)}}
+@keyframes floatB{0%,100%{transform:rotate(3deg) translateY(0)}50%{transform:rotate(3deg) translateY(-8px)}}
+@keyframes floatC{0%,100%{transform:rotate(2deg) translateY(0)}50%{transform:rotate(2deg) translateY(-6px)}}
+.rf1{animation:floatA 4s ease-in-out infinite}
+.rf2{animation:floatB 5s ease-in-out infinite 0.5s}
+.rf3{animation:floatC 4.5s ease-in-out infinite 1s}
+
+@media(max-width:900px){
+  nav{padding:1rem 1.5rem}
+  .hero{grid-template-columns:1fr;padding:6rem 1.5rem 3rem;gap:2rem}
+  .hero-visual{height:300px}
+  .templates-section,.how-section,.cta-band,footer{padding:4rem 1.5rem}
+  .steps-grid{grid-template-columns:1fr}
+  .template-card{min-width:calc(85%)}
+  .section-header{flex-direction:column;align-items:flex-start;gap:0.5rem}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">SLIP<span>KIT</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Templates</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="admin.html">Admin</a></li>
+  </ul>
+  <a href="#templates" class="nav-cta">ดู Templates →</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-text">
+    <div class="hero-tag">Receipt Templates</div>
+    <h1>ใบเสร็จรับเงิน<br>ที่<em>สวยกว่า</em><br>ที่คุณเคยใช้</h1>
+    <p class="hero-sub">6 template ดีไซน์พรีเมียม ครอบคลุมทุก style ทุกธุรกิจ ดาวน์โหลดฟรี พร้อมใช้ทันที</p>
+    <div class="hero-btns">
+      <a href="#templates" class="btn-primary">เลือก Template ฟรี</a>
+      <a href="about.html" class="btn-secondary">เกี่ยวกับเรา</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-item"><div class="stat-num">6</div><div class="stat-label">Templates</div></div>
+      <div class="stat-item"><div class="stat-num">100%</div><div class="stat-label">ฟรี</div></div>
+      <div class="stat-item"><div class="stat-num">6</div><div class="stat-label">Styles</div></div>
+    </div>
+  </div>
+
+  <div class="hero-visual">
+    <div class="accent-blob ab1"></div>
+    <div class="accent-blob ab2"></div>
+
+    <!-- Floating receipt 1 - Minimal -->
+    <div class="receipt-float rf1">
+      <div class="receipt-label">Aurora Minimal</div>
+      <div class="receipt-logo-row">
+        <div class="receipt-brand" style="color:#1A1A2E">BRAND</div>
+        <div class="receipt-badge">Minimal</div>
+      </div>
+      <div class="receipt-divider"></div>
+      <div class="receipt-row"><span>Service A</span><span>฿1,200</span></div>
+      <div class="receipt-row"><span>Service B</span><span>฿800</span></div>
+      <div class="receipt-row"><span>VAT 7%</span><span>฿140</span></div>
+      <div class="receipt-row total"><span>รวมทั้งสิ้น</span><span>฿2,140</span></div>
+    </div>
+
+    <!-- Floating receipt 2 - Dark -->
+    <div class="receipt-float rf2" style="background:#1A1A2E">
+      <div class="receipt-label" style="color:rgba(255,255,255,0.4)">Onyx Premium</div>
+      <div class="receipt-logo-row">
+        <div class="receipt-brand" style="color:#EF9F27">LUXE CO.</div>
+        <div class="receipt-badge" style="background:rgba(239,159,39,0.2);color:#EF9F27">Premium</div>
+      </div>
+      <div class="receipt-divider" style="background:rgba(255,255,255,0.1)"></div>
+      <div class="receipt-row" style="color:rgba(255,255,255,0.5)"><span>Product A</span><span>฿5,000</span></div>
+      <div class="receipt-row" style="color:rgba(255,255,255,0.5)"><span>Tax</span><span>฿350</span></div>
+      <div class="receipt-row total" style="color:#EF9F27;border-color:#EF9F27"><span>TOTAL</span><span>฿5,350</span></div>
+    </div>
+
+    <!-- Floating receipt 3 - Colorful -->
+    <div class="receipt-float rf3" style="background:linear-gradient(135deg,#FF6B6B 0%,#FFE66D 100%)">
+      <div class="receipt-label" style="color:rgba(26,26,46,0.6)">Vivid Pop</div>
+      <div class="receipt-logo-row">
+        <div class="receipt-brand" style="color:#1A1A2E">SHOP!</div>
+        <div class="receipt-badge" style="background:rgba(26,26,46,0.15);color:#1A1A2E">Vibrant</div>
+      </div>
+      <div class="receipt-divider" style="background:rgba(26,26,46,0.15)"></div>
+      <div class="receipt-row" style="color:rgba(26,26,46,0.7)"><span>Item 1</span><span>฿299</span></div>
+      <div class="receipt-row" style="color:rgba(26,26,46,0.7)"><span>Item 2</span><span>฿199</span></div>
+      <div class="receipt-row total" style="color:#1A1A2E;border-color:#1A1A2E"><span>TOTAL</span><span>฿498</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- TEMPLATES -->
+<section class="templates-section" id="templates">
+  <div class="section-header">
+    <div>
+      <div class="section-tag">Collections</div>
+      <div class="section-title">เลือก Template<br>ที่ใช่สำหรับธุรกิจคุณ</div>
+    </div>
+    <a href="#" class="section-link">ดูทั้งหมด →</a>
+  </div>
+
+  <div class="slider-wrapper">
+    <div class="templates-grid" id="templateGrid">
+
+      <!-- TPL-001 Minimalist -->
+      <a href="template-detail.html?id=1" class="template-card">
+        <div class="card-preview" style="background:#F8F7FF">
+          <div class="mini-receipt">
+            <div class="mr-logo" style="color:#1A1A2E">STUDIO</div>
+            <div class="mr-line"></div>
+            <div class="mr-row"><span>Design Service</span><span>฿3,500</span></div>
+            <div class="mr-row"><span>Consulting</span><span>฿1,200</span></div>
+            <div class="mr-row"><span>VAT 7%</span><span>฿329</span></div>
+            <div class="mr-total"><span>TOTAL</span><span>฿5,029</span></div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-style">Minimalist</div>
+          <div class="card-name">Aurora Minimal</div>
+          <div class="card-desc">สะอาด เรียบง่าย ตรงประเด็น ดีไซน์ไร้กาลเวลาสำหรับ Freelancer และ Creative Studio</div>
+          <div class="card-footer">
+            <div class="card-tags">
+              <span class="tag" style="background:#EEEDFE;color:#534AB7">Freelancer</span>
+              <span class="tag" style="background:#F1EFE8;color:#5F5E5A">Clean</span>
+            </div>
+            <span class="view-link">ดูรายละเอียด →</span>
+          </div>
+        </div>
+      </a>
+
+      <!-- TPL-002 Vibrant -->
+      <a href="template-detail.html?id=2" class="template-card">
+        <div class="card-preview" style="background:linear-gradient(135deg,#FFE4E1 0%,#FFF9E6 100%)">
+          <div class="mini-receipt" style="background:linear-gradient(135deg,#FF6B6B,#FFE66D);border-radius:10px">
+            <div class="mr-logo" style="color:#1A1A2E">SHOP!</div>
+            <div class="mr-line" style="background:rgba(26,26,46,0.2)"></div>
+            <div class="mr-row" style="color:rgba(26,26,46,0.7)"><span>Product A</span><span>฿299</span></div>
+            <div class="mr-row" style="color:rgba(26,26,46,0.7)"><span>Product B</span><span>฿450</span></div>
+            <div class="mr-total" style="border-color:#1A1A2E;color:#1A1A2E"><span>TOTAL</span><span>฿749</span></div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-style">Colorful / Vibrant</div>
+          <div class="card-name">Vivid Pop</div>
+          <div class="card-desc">สีสันสดใส มีพลังงาน ดึงดูดสายตา เหมาะกับร้านค้า Retail และ Food & Beverage</div>
+          <div class="card-footer">
+            <div class="card-tags">
+              <span class="tag" style="background:#FAECE7;color:#712B13">Retail</span>
+              <span class="tag" style="background:#FAEEDA;color:#633806">Bold</span>
+            </div>
+            <span class="view-link">ดูรายละเอียด →</span>
+          </div>
+        </div>
+      </a>
+
+      <!-- TPL-003 Dark -->
+      <a href="template-detail.html?id=3" class="template-card">
+        <div class="card-preview" style="background:#1A1A2E">
+          <div class="mini-receipt" style="background:#16213E;box-shadow:0 8px 24px rgba(0,0,0,0.4)">
+            <div class="mr-logo" style="color:#EF9F27">LUXE CO.</div>
+            <div class="mr-line" style="background:rgba(255,255,255,0.1)"></div>
+            <div class="mr-row" style="color:rgba(255,255,255,0.5)"><span>Package</span><span>฿9,500</span></div>
+            <div class="mr-row" style="color:rgba(255,255,255,0.5)"><span>Tax</span><span>฿665</span></div>
+            <div class="mr-total" style="border-color:#EF9F27;color:#EF9F27"><span>TOTAL</span><span>฿10,165</span></div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-style">Dark / Premium</div>
+          <div class="card-name">Onyx Premium</div>
+          <div class="card-desc">โทนเข้มหรูหรา สัมผัสความ Luxury ทุก pixel เหมาะกับแบรนด์ระดับสูงและ Agency</div>
+          <div class="card-footer">
+            <div class="card-tags">
+              <span class="tag" style="background:#2C2C2A;color:#D3D1C7">Luxury</span>
+              <span class="tag" style="background:#FAEEDA;color:#633806">Gold</span>
+            </div>
+            <span class="view-link">ดูรายละเอียด →</span>
+          </div>
+        </div>
+      </a>
+
+      <!-- TPL-004 Retro -->
+      <a href="template-detail.html?id=4" class="template-card">
+        <div class="card-preview" style="background:#F5ECD7">
+          <div class="mini-receipt" style="background:#FFFBF2;border:1.5px solid #D4A574">
+            <div class="mr-logo" style="color:#8B5E3C;font-family:serif">THE CAFÉ</div>
+            <div class="mr-line" style="background:#D4A574"></div>
+            <div class="mr-row" style="color:#8B5E3C"><span>Espresso</span><span>฿85</span></div>
+            <div class="mr-row" style="color:#8B5E3C"><span>Croissant</span><span>฿65</span></div>
+            <div class="mr-total" style="border-color:#8B5E3C;color:#8B5E3C"><span>TOTAL</span><span>฿150</span></div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-style">Retro / Vintage</div>
+          <div class="card-name">Nostalgic Press</div>
+          <div class="card-desc">กลิ่นอายวินเทจอบอุ่น เหมาะกับร้านกาแฟ Artisan และแบรนด์ Handmade สไตล์คลาสสิก</div>
+          <div class="card-footer">
+            <div class="card-tags">
+              <span class="tag" style="background:#FAEEDA;color:#633806">Café</span>
+              <span class="tag" style="background:#FAECE7;color:#712B13">Artisan</span>
+            </div>
+            <span class="view-link">ดูรายละเอียด →</span>
+          </div>
+        </div>
+      </a>
+
+      <!-- TPL-005 Corporate -->
+      <a href="template-detail.html?id=5" class="template-card">
+        <div class="card-preview" style="background:#EEF2F7">
+          <div class="mini-receipt" style="background:#fff;border-top:3px solid #1A3A5C">
+            <div class="mr-logo" style="color:#1A3A5C;font-size:0.7rem;letter-spacing:0.05em">CORPORATION LTD.</div>
+            <div class="mr-line" style="background:#dde4ed"></div>
+            <div class="mr-row" style="color:#444"><span>Consulting Fee</span><span>฿25,000</span></div>
+            <div class="mr-row" style="color:#444"><span>VAT 7%</span><span>฿1,750</span></div>
+            <div class="mr-total" style="border-color:#1A3A5C;color:#1A3A5C"><span>TOTAL</span><span>฿26,750</span></div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-style">Corporate / B2B</div>
+          <div class="card-name">Blueprint Pro</div>
+          <div class="card-desc">มืออาชีพ น่าเชื่อถือ มีระเบียบ เหมาะสำหรับองค์กรธุรกิจ B2B และงาน Consulting</div>
+          <div class="card-footer">
+            <div class="card-tags">
+              <span class="tag" style="background:#E6F1FB;color:#0C447C">Corporate</span>
+              <span class="tag" style="background:#EAF3DE;color:#27500A">B2B</span>
+            </div>
+            <span class="view-link">ดูรายละเอียด →</span>
+          </div>
+        </div>
+      </a>
+
+      <!-- TPL-006 Playful -->
+      <a href="template-detail.html?id=6" class="template-card">
+        <div class="card-preview" style="background:linear-gradient(135deg,#E8D5F5 0%,#D5F0E8 100%)">
+          <div class="mini-receipt" style="background:#fff;border-radius:12px;border:2px dashed #C4A7E7">
+            <div class="mr-logo" style="color:#7C3AED">🎨 STUDIO</div>
+            <div class="mr-line" style="background:#EDE9FE"></div>
+            <div class="mr-row" style="color:#7C3AED"><span>Workshop</span><span>฿490</span></div>
+            <div class="mr-row" style="color:#7C3AED"><span>Materials</span><span>฿150</span></div>
+            <div class="mr-total" style="border-color:#7C3AED;color:#7C3AED"><span>TOTAL</span><span>฿640</span></div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-style">Playful / Creative</div>
+          <div class="card-name">Doodle Studio</div>
+          <div class="card-desc">สนุกสนาน มีชีวิต ดีไซน์ลื่นไหล เหมาะกับ Creative Studio งาน Event และแบรนด์เด็ก</div>
+          <div class="card-footer">
+            <div class="card-tags">
+              <span class="tag" style="background:#EEEDFE;color:#534AB7">Creative</span>
+              <span class="tag" style="background:#FBEAF0;color:#72243E">Fun</span>
+            </div>
+            <span class="view-link">ดูรายละเอียด →</span>
+          </div>
+        </div>
+      </a>
+
+    </div>
+  </div>
+
+  <div class="slider-controls">
+    <button class="slider-btn" onclick="slide(-1)">←</button>
+    <div class="slider-dots">
+      <div class="dot active" onclick="goTo(0)"></div>
+      <div class="dot" onclick="goTo(1)"></div>
+      <div class="dot" onclick="goTo(2)"></div>
+    </div>
+    <button class="slider-btn" onclick="slide(1)">→</button>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how-section">
+  <div class="section-tag">How it works</div>
+  <div class="section-title" style="color:#fff;font-family:'Syne',sans-serif;font-size:2rem;font-weight:800;letter-spacing:-0.02em;margin-top:0.5rem">ใช้งานง่าย 3 ขั้นตอน</div>
+  <div class="steps-grid">
+    <div class="step-card">
+      <div class="step-num">01</div>
+      <div class="step-title">เลือก Template</div>
+      <div class="step-desc">เลือก template ที่ตรงกับสไตล์และธุรกิจของคุณจาก 6 แบบที่มีให้</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">02</div>
+      <div class="step-title">ดูรายละเอียด</div>
+      <div class="step-desc">ศึกษาวิธีใช้งาน ดูตัวอย่าง และทำความเข้าใจ feature ของแต่ละ template</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">03</div>
+      <div class="step-title">ดาวน์โหลด &amp; ใช้งาน</div>
+      <div class="step-desc">ดาวน์โหลดฟรี นำไปใช้งานได้ทันที ปรับแต่งตามความต้องการของธุรกิจ</div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BAND -->
+<div class="cta-band">
+  <h2>พร้อมยกระดับ<br>ใบเสร็จของคุณแล้วหรือยัง?</h2>
+  <a href="#templates" class="btn-white">เลือก Template เลย →</a>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">SLIP<span>KIT</span> <span style="font-weight:300;font-size:0.75rem;opacity:0.5;margin-left:0.5rem">Your receipt toolkit, ready to go.</span></div>
+  <div class="footer-links">
+    <a href="index.html">Templates</a>
+    <a href="about.html">About</a>
+    <a href="admin.html">Admin</a>
+  </div>
+  <div style="font-size:0.75rem">© 2026 SLIPKIT</div>
+</footer>
+
+<script>
+let current = 0;
+const total = 6;
+const visible = 3;
+const maxSlide = total - visible;
+
+function slide(dir) {
+  current = Math.max(0, Math.min(current + dir, maxSlide));
+  updateSlider();
+}
+function goTo(i) {
+  current = i;
+  updateSlider();
+}
+function updateSlider() {
+  const grid = document.getElementById('templateGrid');
+  const cardW = grid.children[0].offsetWidth + 24;
+  grid.style.transform = `translateX(-${current * cardW}px)`;
+  document.querySelectorAll('.dot').forEach((d, i) => {
+    d.classList.toggle('active', i === current);
+  });
+}
+</script>
+</body>
+</html>
