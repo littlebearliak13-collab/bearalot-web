@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 700" width="320" height="700">
+
+  <!-- Light gray-blue background -->
+  <rect width="320" height="700" fill="#F4F6FA"/>
+
+  <!-- ============ HEADER BENTO (full width, navy) ============ -->
+  <rect x="20" y="24" width="280" height="84" fill="#1E3A5F" rx="10"/>
+
+  <text x="40" y="60" font-family="Helvetica, Arial, sans-serif"
+        font-size="28" font-weight="800"
+        fill="#FFFFFF" letter-spacing="2">STACK</text>
+
+  <text x="40" y="80" font-family="Helvetica, sans-serif"
+        font-size="9" font-weight="500"
+        fill="#FBBF24" letter-spacing="2">SUBSCRIPTION RECEIPT</text>
+
+  <text x="40" y="96" font-family="Helvetica, sans-serif"
+        font-size="9"
+        fill="#A8B5C7">stack.app | billing@stack.app</text>
+
+  <!-- yellow accent dot -->
+  <circle cx="270" cy="50" r="14" fill="#FBBF24"/>
+  <text x="270" y="55" font-family="Helvetica, sans-serif"
+        font-size="14" font-weight="800"
+        fill="#1E3A5F" text-anchor="middle">$</text>
+
+  <!-- ============ ROW 2 (2 cells: receipt # + date) ============ -->
+  <rect x="20" y="116" width="135" height="62" fill="#FFFFFF"
+        stroke="#DCE3ED" stroke-width="1" rx="10"/>
+  <text x="32" y="135" font-family="Helvetica, sans-serif"
+        font-size="9" font-weight="600"
+        fill="#7B8AA0" letter-spacing="1.5">RECEIPT #</text>
+  <text x="32" y="160" font-family="Helvetica, sans-serif"
+        font-size="16" font-weight="800"
+        fill="#1E3A5F">ST-2026-008</text>
+
+  <rect x="165" y="116" width="135" height="62" fill="#FFFFFF"
+        stroke="#DCE3ED" stroke-width="1" rx="10"/>
+  <text x="177" y="135" font-family="Helvetica, sans-serif"
+        font-size="9" font-weight="600"
+        fill="#7B8AA0" letter-spacing="1.5">DATE</text>
+  <text x="177" y="160" font-family="Helvetica, sans-serif"
+        font-size="16" font-weight="800"
+        fill="#1E3A5F">28 APR 2026</text>
+
+  <!-- ============ ROW 3 (full width: customer) ============ -->
+  <rect x="20" y="186" width="280" height="58" fill="#FFFFFF"
+        stroke="#DCE3ED" stroke-width="1" rx="10"/>
+  <text x="32" y="205" font-family="Helvetica, sans-serif"
+        font-size="9" font-weight="600"
+        fill="#7B8AA0" letter-spacing="1.5">BILLED TO</text>
+  <text x="32" y="227" font-family="Helvetica, sans-serif"
+        font-size="14" font-weight="600"
+        fill="#1E3A5F">Acme Studio Co., Ltd.</text>
+  <text x="288" y="227" font-family="Helvetica, sans-serif"
+        font-size="11" fill="#7B8AA0" text-anchor="end">customer@acme.co</text>
+
+  <!-- ============ ROW 4 (full width: items header) ============ -->
+  <rect x="20" y="252" width="280" height="200" fill="#FFFFFF"
+        stroke="#DCE3ED" stroke-width="1" rx="10"/>
+
+  <text x="32" y="272" font-family="Helvetica, sans-serif"
+        font-size="9" font-weight="600"
+        fill="#7B8AA0" letter-spacing="1.5">SUBSCRIPTION DETAILS</text>
+
+  <line x1="32" y1="282" x2="288" y2="282" stroke="#DCE3ED" stroke-width="1"/>
+
+  <!-- items inside the card -->
+  <g font-family="Helvetica, sans-serif" font-size="13" fill="#1E3A5F">
+    <text x="32" y="306">Pro Plan</text>
+    <text x="32" y="322" font-size="10" fill="#7B8AA0">monthly, billed today</text>
+    <text x="288" y="306" text-anchor="end" font-weight="700">$29.00</text>
+
+    <text x="32" y="350">Team add-ons (3 seats)</text>
+    <text x="32" y="366" font-size="10" fill="#7B8AA0">$4.00 x 3</text>
+    <text x="288" y="350" text-anchor="end" font-weight="700">$12.00</text>
+
+    <text x="32" y="395">Tax</text>
+    <text x="32" y="411" font-size="10" fill="#7B8AA0">VAT 0%</text>
+    <text x="288" y="395" text-anchor="end" font-weight="700">$0.00</text>
+  </g>
+
+  <line x1="32" y1="430" x2="288" y2="430" stroke="#DCE3ED" stroke-width="1"/>
+
+  <text x="32" y="446" font-family="Helvetica, sans-serif"
+        font-size="11" font-weight="600"
+        fill="#7B8AA0">Subtotal</text>
+  <text x="288" y="446" font-family="Helvetica, sans-serif"
+        font-size="11" font-weight="700"
+        fill="#1E3A5F" text-anchor="end">$41.00</text>
+
+  <!-- ============ ROW 5 (TOTAL - yellow accent bento full width) ============ -->
+  <rect x="20" y="460" width="280" height="80" fill="#FBBF24" rx="10"/>
+
+  <text x="32" y="481" font-family="Helvetica, sans-serif"
+        font-size="9" font-weight="700"
+        fill="#7C5A00" letter-spacing="2">AMOUNT DUE</text>
+  <text x="32" y="525" font-family="Helvetica, sans-serif"
+        font-size="34" font-weight="900"
+        fill="#1E3A5F">$41.00</text>
+
+  <text x="288" y="500" font-family="Helvetica, sans-serif"
+        font-size="11" font-weight="600"
+        fill="#7C5A00" text-anchor="end" letter-spacing="1">PAID</text>
+  <rect x="252" y="508" width="36" height="20" fill="#1E3A5F" rx="4"/>
+  <!-- checkmark as SVG path (no Unicode) -->
+  <path d="M 264 519 L 268 523 L 276 514"
+        stroke="#FBBF24" stroke-width="2" fill="none"
+        stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- ============ ROW 6 (2 cells: payment + next billing) ============ -->
+  <rect x="20" y="548" width="135" height="62" fill="#FFFFFF"
+        stroke="#DCE3ED" stroke-width="1" rx="10"/>
+  <text x="32" y="567" font-family="Helvetica, sans-serif"
+        font-size="9" font-weight="600"
+        fill="#7B8AA0" letter-spacing="1.5">PAYMENT</text>
+  <text x="32" y="589" font-family="Helvetica, sans-serif"
+        font-size="13" font-weight="700"
+        fill="#1E3A5F">Card xxxx 4242</text>
+
+  <rect x="165" y="548" width="135" height="62" fill="#FFFFFF"
+        stroke="#DCE3ED" stroke-width="1" rx="10"/>
+  <text x="177" y="567" font-family="Helvetica, sans-serif"
+        font-size="9" font-weight="600"
+        fill="#7B8AA0" letter-spacing="1.5">NEXT BILLING</text>
+  <text x="177" y="589" font-family="Helvetica, sans-serif"
+        font-size="13" font-weight="700"
+        fill="#1E3A5F">28 May 2026</text>
+
+  <!-- ============ ROW 7 (footer bento, navy slim) ============ -->
+  <rect x="20" y="618" width="280" height="58" fill="#1E3A5F" rx="10"/>
+
+  <text x="160" y="638" font-family="Helvetica, sans-serif"
+        font-size="11" font-weight="600"
+        fill="#FFFFFF" text-anchor="middle">Thank you for stacking with us</text>
+  <text x="160" y="654" font-family="Helvetica, sans-serif"
+        font-size="9"
+        fill="#A8B5C7" text-anchor="middle" letter-spacing="1">Need help? support@stack.app</text>
+  <text x="160" y="668" font-family="Helvetica, sans-serif"
+        font-size="8" font-weight="500"
+        fill="#FBBF24" text-anchor="middle" letter-spacing="1.5">Made with SLIPKIT - bearalot.com</text>
+</svg>
