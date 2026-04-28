@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Browse all Templates — SLIPKIT</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --purple:#7F77DD;
+  --purple-dark:#534AB7;
+  --purple-light:#EEEDFE;
+  --navy:#1A1A2E;
+  --cream:#FAFAF7;
+  --gray-mid:#888780;
+  --gray-light:#F1EFE8;
+  --text:#1A1A2E;
+  --text-muted:#888780;
+}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text);min-height:100vh;display:flex;flex-direction:column}
+
+/* NAV (เหมือนหน้าแรก) */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1.2rem 4rem;display:flex;justify-content:space-between;align-items:center;background:rgba(250,250,247,0.88);backdrop-filter:blur(16px);border-bottom:1px solid rgba(127,119,221,0.12)}
+.nav-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:1.4rem;color:var(--navy);letter-spacing:-0.02em;text-decoration:none}
+.nav-logo span{color:var(--purple)}
+.nav-links{display:flex;gap:2.5rem;list-style:none}
+.nav-links a{font-size:0.875rem;color:var(--text-muted);text-decoration:none;letter-spacing:0.02em;transition:color 0.2s}
+.nav-links a:hover,.nav-links a.active{color:var(--purple)}
+.nav-cta{background:var(--navy);color:#fff;font-size:0.8rem;letter-spacing:0.06em;text-transform:uppercase;padding:0.6rem 1.4rem;border-radius:99px;text-decoration:none;font-family:'Syne',sans-serif;font-weight:600;transition:background 0.2s}
+.nav-cta:hover{background:var(--purple)}
+
+/* HEADER */
+.browse-header{padding:7rem 4rem 2rem;max-width:1200px}
+.crumb{font-size:0.75rem;color:var(--text-muted);margin-bottom:1rem;letter-spacing:0.02em}
+.crumb a{color:var(--text-muted);text-decoration:none}
+.crumb a:hover{color:var(--purple)}
+.browse-tag{display:inline-flex;align-items:center;gap:0.4rem;background:var(--purple-light);color:var(--purple-dark);font-size:0.7rem;letter-spacing:0.08em;text-transform:uppercase;padding:0.3rem 0.8rem;border-radius:99px;font-family:'Syne',sans-serif;font-weight:600;margin-bottom:1rem}
+.browse-header h1{font-family:'Syne',sans-serif;font-size:clamp(2rem,4vw,2.8rem);font-weight:800;letter-spacing:-0.03em;line-height:1.15;margin-bottom:0.75rem}
+.browse-header h1 em{font-style:normal;color:var(--purple)}
+.browse-header p{font-size:0.95rem;color:var(--text-muted);max-width:560px;line-height:1.7}
+
+/* SEARCH BAR */
+.search-section{padding:1rem 4rem 2rem}
+.search-box{position:relative;max-width:560px}
+.search-input{width:100%;padding:0.95rem 1rem 0.95rem 2.8rem;font-family:'DM Sans',sans-serif;font-size:0.95rem;border:1.5px solid var(--gray-light);border-radius:99px;background:#fff;transition:all 0.2s;color:var(--text)}
+.search-input:focus{outline:none;border-color:var(--purple);box-shadow:0 0 0 4px rgba(127,119,221,0.1)}
+.search-input::placeholder{color:var(--gray-mid)}
+.search-icon{position:absolute;left:1.1rem;top:50%;transform:translateY(-50%);width:18px;height:18px;color:var(--gray-mid);pointer-events:none}
+.search-meta{display:flex;justify-content:space-between;align-items:center;margin-top:1rem;flex-wrap:wrap;gap:0.5rem}
+.result-count{font-size:0.85rem;color:var(--text-muted)}
+.result-count strong{color:var(--navy);font-weight:600}
+.clear-btn{background:none;border:none;font-size:0.8rem;color:var(--purple);cursor:pointer;font-family:'DM Sans',sans-serif;padding:0;display:none}
+.clear-btn:hover{text-decoration:underline}
+.clear-btn.show{display:inline-block}
+
+/* GRID */
+.grid-section{padding:0 4rem 3rem;flex:1}
+.templates-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;min-height:400px}
+.template-card{background:#fff;border-radius:20px;overflow:hidden;cursor:pointer;text-decoration:none;color:inherit;transition:transform 0.25s,box-shadow 0.25s;display:flex;flex-direction:column;border:0.5px solid rgba(127,119,221,0.08)}
+.template-card:hover{transform:translateY(-4px);box-shadow:0 20px 50px rgba(26,26,46,0.08)}
+.card-preview{height:220px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;flex-shrink:0}
+.card-body{padding:1.1rem 1.3rem 1.3rem;flex:1;display:flex;flex-direction:column}
+.card-style{font-size:0.65rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-muted);font-weight:500;margin-bottom:0.3rem}
+.card-name{font-family:'Syne',sans-serif;font-weight:700;font-size:1rem;margin-bottom:0.4rem;color:var(--navy)}
+.card-desc{font-size:0.78rem;color:var(--text-muted);line-height:1.6;flex:1}
+.card-footer{display:flex;justify-content:space-between;align-items:center;margin-top:0.9rem}
+.card-tags{display:flex;gap:0.35rem;flex-wrap:wrap}
+.tag{font-size:0.62rem;padding:0.22rem 0.55rem;border-radius:99px;font-weight:500;white-space:nowrap}
+.view-link{font-size:0.7rem;color:var(--purple);font-family:'Syne',sans-serif;font-weight:600;display:flex;align-items:center;gap:0.25rem;flex-shrink:0}
+
+/* Mini receipt */
+.mini-receipt{background:#fff;border-radius:10px;padding:0.9rem;width:150px;box-shadow:0 6px 20px rgba(0,0,0,0.08)}
+.mr-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:0.7rem;margin-bottom:0.45rem}
+.mr-line{height:1px;background:#eee;margin:0.35rem 0}
+.mr-row{display:flex;justify-content:space-between;font-size:0.5rem;color:#888;padding:0.13rem 0}
+.mr-total{font-family:'Syne',sans-serif;font-weight:700;font-size:0.6rem;display:flex;justify-content:space-between;border-top:1px solid #222;padding-top:0.28rem;margin-top:0.18rem}
+
+/* EMPTY STATE */
+.empty-state{grid-column:1/-1;text-align:center;padding:4rem 2rem;color:var(--text-muted)}
+.empty-state h3{font-family:'Syne',sans-serif;font-size:1.3rem;color:var(--navy);margin-bottom:0.6rem;font-weight:700}
+.empty-state p{font-size:0.9rem;line-height:1.6;max-width:340px;margin:0 auto}
+
+/* PAGINATION */
+.pagination{display:flex;justify-content:center;align-items:center;gap:0.4rem;padding:2rem 4rem 4rem;flex-wrap:wrap}
+.page-btn{min-width:38px;height:38px;border-radius:10px;border:none;background:transparent;cursor:pointer;font-size:0.85rem;color:var(--navy);font-family:'DM Sans',sans-serif;font-weight:500;transition:all 0.18s;padding:0 0.6rem;display:inline-flex;align-items:center;justify-content:center}
+.page-btn:hover:not(.active):not(.dots):not(:disabled){background:var(--purple-light);color:var(--purple-dark)}
+.page-btn.active{background:var(--navy);color:#fff;font-weight:600}
+.page-btn.dots{cursor:default;color:var(--gray-mid)}
+.page-btn.dots:hover{background:transparent}
+.page-btn.arrow{border:1px solid var(--gray-light);font-size:1rem}
+.page-btn.arrow:hover:not(:disabled){border-color:var(--navy);background:var(--navy);color:#fff}
+.page-btn:disabled{opacity:0.35;cursor:not-allowed}
+
+/* FOOTER */
+footer{background:var(--navy);color:rgba(255,255,255,0.45);padding:3rem 4rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
+.footer-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem;color:#fff}
+.footer-logo span{color:var(--purple)}
+.footer-links{display:flex;gap:2rem}
+.footer-links a{color:rgba(255,255,255,0.4);text-decoration:none;font-size:0.8rem;transition:color 0.2s}
+.footer-links a:hover{color:var(--purple)}
+
+/* ANIMATION */
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.template-card{animation:fadeIn 0.35s ease both}
+
+@media(max-width:900px){
+  nav{padding:1rem 1.5rem}
+  .browse-header,.search-section,.grid-section,.pagination,footer{padding-left:1.5rem;padding-right:1.5rem}
+  .browse-header{padding-top:6rem}
+  .templates-grid{grid-template-columns:1fr;gap:1rem}
+}
+@media(min-width:901px) and (max-width:1100px){
+  .templates-grid{grid-template-columns:repeat(2,1fr)}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">SLIP<span>KIT</span></a>
+  <ul class="nav-links">
+    <li><a href="templates.html" class="active">Templates</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="admin.html">Admin</a></li>
+  </ul>
+  <a href="index.html" class="nav-cta">หน้าแรก →</a>
+</nav>
+
+<div class="browse-header">
+  <div class="crumb"><a href="index.html">Home</a> &nbsp;/&nbsp; Browse all</div>
+  <div class="browse-tag">Browse all</div>
+  <h1><em>Templates</em> ทั้งหมด</h1>
+  <p>เลือกดูทุก receipt template ที่เรามี ค้นหาด้วยชื่อหรือสไตล์ที่ต้องการได้</p>
+</div>
+
+<div class="search-section">
+  <div class="search-box">
+    <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+    <input type="text" id="searchInput" class="search-input" placeholder="ค้นหา template ตามชื่อหรือสไตล์..." autocomplete="off">
+  </div>
+  <div class="search-meta">
+    <div class="result-count">พบ <strong id="resultCount">0</strong> templates</div>
+    <button class="clear-btn" id="clearBtn" onclick="clearSearch()">ล้างการค้นหา ×</button>
+  </div>
+</div>
+
+<div class="grid-section">
+  <div class="templates-grid" id="templatesGrid"></div>
+</div>
+
+<div class="pagination" id="pagination"></div>
+
+<footer>
+  <div class="footer-logo">SLIP<span>KIT</span> <span style="font-weight:300;font-size:0.75rem;opacity:0.5;margin-left:0.5rem">Your receipt toolkit, ready to go.</span></div>
+  <div class="footer-links">
+    <a href="index.html">Home</a>
+    <a href="templates.html">Templates</a>
+    <a href="about.html">About</a>
+    <a href="admin.html">Admin</a>
+  </div>
+  <div style="font-size:0.75rem">© 2026 SLIPKIT</div>
+</footer>
+
+<!-- ============================================================
+     SHARED TEMPLATE DATA
+     แก้/เพิ่ม template ที่นี่ที่เดียว → หน้าแรก + หน้านี้ใช้ร่วมกัน
+     auto-gen ทุกวันก็ append เข้า array นี้ได้
+     ============================================================ -->
+<script src="templates-data.js"></script>
+
+<script>
+// ====== STATE ======
+const PER_PAGE = 9;          // 3×3 grid
+let currentPage = 1;
+let searchQuery = '';
+let filteredTemplates = [];
+
+// ====== INIT ======
+function init(){
+  filteredTemplates = TEMPLATES.slice();
+  // อ่าน query string ?q=xxx จาก URL ถ้ามี (เผื่อใช้ link จากหน้าอื่น)
+  const params = new URLSearchParams(window.location.search);
+  const q = params.get('q');
+  if(q){
+    document.getElementById('searchInput').value = q;
+    searchQuery = q.toLowerCase().trim();
+  }
+  applyFilter();
+  document.getElementById('searchInput').addEventListener('input', onSearch);
+}
+
+function onSearch(e){
+  searchQuery = e.target.value.toLowerCase().trim();
+  currentPage = 1;
+  applyFilter();
+}
+
+function clearSearch(){
+  document.getElementById('searchInput').value = '';
+  searchQuery = '';
+  currentPage = 1;
+  applyFilter();
+}
+
+function applyFilter(){
+  if(!searchQuery){
+    filteredTemplates = TEMPLATES.slice();
+    document.getElementById('clearBtn').classList.remove('show');
+  } else {
+    filteredTemplates = TEMPLATES.filter(t => {
+      return t.name.toLowerCase().includes(searchQuery)
+          || t.style.toLowerCase().includes(searchQuery)
+          || (t.tags || []).some(tag => tag.toLowerCase().includes(searchQuery));
+    });
+    document.getElementById('clearBtn').classList.add('show');
+  }
+  document.getElementById('resultCount').textContent = filteredTemplates.length;
+  render();
+}
+
+// ====== RENDER GRID ======
+function render(){
+  const grid = document.getElementById('templatesGrid');
+  if(filteredTemplates.length === 0){
+    grid.innerHTML = `<div class="empty-state">
+      <h3>ไม่พบ template ที่ตรงกับการค้นหา</h3>
+      <p>ลองค้นหาด้วยคำอื่น หรือล้างการค้นหาเพื่อดู templates ทั้งหมด</p>
+    </div>`;
+    document.getElementById('pagination').innerHTML = '';
+    return;
+  }
+  const start = (currentPage - 1) * PER_PAGE;
+  const end = Math.min(start + PER_PAGE, filteredTemplates.length);
+  const pageItems = filteredTemplates.slice(start, end);
+
+  grid.innerHTML = pageItems.map(t => renderCard(t)).join('');
+  renderPagination();
+}
+
+function renderCard(t){
+  const tags = (t.tags || []).map(tag =>
+    `<span class="tag" style="background:${tag.bg};color:${tag.color}">${tag.label}</span>`
+  ).join('');
+  return `<a href="template-detail.html?id=${t.id}" class="template-card">
+    <div class="card-preview" style="background:${t.preview.bg}">
+      ${renderMiniReceipt(t.preview)}
+    </div>
+    <div class="card-body">
+      <div class="card-style">${t.style}</div>
+      <div class="card-name">${t.name}</div>
+      <div class="card-desc">${t.desc}</div>
+      <div class="card-footer">
+        <div class="card-tags">${tags}</div>
+        <span class="view-link">ดู →</span>
+      </div>
+    </div>
+  </a>`;
+}
+
+function renderMiniReceipt(p){
+  const m = p.mini;
+  const rows = (m.rows || []).map(r =>
+    `<div class="mr-row" ${r.color?`style="color:${r.color}"`:''}><span>${r.label}</span><span>${r.value}</span></div>`
+  ).join('');
+  return `<div class="mini-receipt" style="${m.cardStyle || ''}">
+    <div class="mr-logo" ${m.logoColor?`style="color:${m.logoColor};${m.logoExtra||''}"`:''}>${m.logo}</div>
+    <div class="mr-line" ${m.lineColor?`style="background:${m.lineColor}"`:''}></div>
+    ${rows}
+    <div class="mr-total" style="${m.totalStyle||''}"><span>${m.totalLabel||'TOTAL'}</span><span>${m.totalValue}</span></div>
+  </div>`;
+}
+
+// ====== PAGINATION ======
+function renderPagination(){
+  const totalPages = Math.ceil(filteredTemplates.length / PER_PAGE);
+  const el = document.getElementById('pagination');
+  if(totalPages <= 1){ el.innerHTML = ''; return; }
+
+  const pages = buildPageList(currentPage, totalPages);
+  let html = `<button class="page-btn arrow" onclick="goTo(${currentPage-1})" ${currentPage===1?'disabled':''} aria-label="Previous">←</button>`;
+  pages.forEach(p => {
+    if(p === '...'){
+      html += `<button class="page-btn dots">…</button>`;
+    } else {
+      html += `<button class="page-btn ${p===currentPage?'active':''}" onclick="goTo(${p})">${p}</button>`;
+    }
+  });
+  html += `<button class="page-btn arrow" onclick="goTo(${currentPage+1})" ${currentPage===totalPages?'disabled':''} aria-label="Next">→</button>`;
+  el.innerHTML = html;
+}
+
+function buildPageList(current, total){
+  if(total <= 7) return Array.from({length:total},(_,i)=>i+1);
+  const out = [1];
+  if(current > 3) out.push('...');
+  for(let i=Math.max(2,current-1); i<=Math.min(total-1,current+1); i++) out.push(i);
+  if(current < total-2) out.push('...');
+  out.push(total);
+  return out;
+}
+
+function goTo(p){
+  const totalPages = Math.ceil(filteredTemplates.length / PER_PAGE);
+  if(p < 1 || p > totalPages) return;
+  currentPage = p;
+  render();
+  window.scrollTo({top:document.querySelector('.search-section').offsetTop - 80, behavior:'smooth'});
+}
+
+// ====== START ======
+init();
+</script>
+</body>
+</html>

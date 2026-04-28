@@ -102,12 +102,18 @@ h1 em{font-style:normal;color:var(--purple)}
 .mr-total{font-family:'Syne',sans-serif;font-weight:700;font-size:0.65rem;display:flex;justify-content:space-between;border-top:1px solid #222;padding-top:0.3rem;margin-top:0.2rem}
 
 /* Slider controls */
-.slider-controls{display:flex;gap:0.75rem;margin-top:2rem;justify-content:center}
+.slider-controls{display:flex;gap:0.5rem;margin-top:2rem;justify-content:center;align-items:center;flex-wrap:wrap}
 .slider-btn{width:40px;height:40px;border-radius:50%;border:1.5px solid var(--navy);background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.2s;font-size:1rem;color:var(--navy)}
-.slider-btn:hover{background:var(--navy);color:#fff}
-.slider-dots{display:flex;gap:0.5rem;align-items:center}
-.dot{width:8px;height:8px;border-radius:50%;background:var(--gray-mid);transition:all 0.3s;cursor:pointer}
-.dot.active{background:var(--purple);width:24px;border-radius:99px}
+.slider-btn:hover:not(:disabled){background:var(--navy);color:#fff}
+.slider-btn:disabled{opacity:0.3;cursor:not-allowed}
+.slider-pages{display:flex;gap:0.25rem;align-items:center;margin:0 0.5rem}
+.page-num{min-width:36px;height:36px;border-radius:10px;border:none;background:transparent;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:0.85rem;color:var(--navy);font-weight:500;transition:all 0.18s;padding:0 0.5rem}
+.page-num:hover:not(.active):not(.dots){background:var(--purple-light);color:var(--purple-dark)}
+.page-num.active{background:var(--navy);color:#fff;font-weight:600}
+.page-num.dots{cursor:default;color:var(--gray-mid)}
+.page-num.dots:hover{background:transparent}
+.browse-all-link{display:inline-flex;align-items:center;gap:0.4rem;margin-left:1rem;padding:0.5rem 1.1rem;background:var(--purple-light);color:var(--purple-dark);border-radius:99px;font-family:'Syne',sans-serif;font-weight:600;font-size:0.78rem;text-decoration:none;transition:all 0.2s;letter-spacing:0.02em}
+.browse-all-link:hover{background:var(--purple);color:#fff;transform:translateY(-1px)}
 
 /* HOW IT WORKS */
 .how-section{padding:6rem 4rem;background:var(--navy);color:#fff}
@@ -160,11 +166,11 @@ footer{background:var(--navy);color:rgba(255,255,255,0.45);padding:3rem 4rem;dis
 <nav>
   <a href="index.html" class="nav-logo">SLIP<span>KIT</span></a>
   <ul class="nav-links">
-    <li><a href="index.html">Templates</a></li>
+    <li><a href="templates.html">Templates</a></li>
     <li><a href="about.html">About</a></li>
     <li><a href="admin.html">Admin</a></li>
   </ul>
-  <a href="#templates" class="nav-cta">ดู Templates →</a>
+  <a href="templates.html" class="nav-cta">Browse all →</a>
 </nav>
 
 <!-- HERO -->
@@ -178,9 +184,9 @@ footer{background:var(--navy);color:rgba(255,255,255,0.45);padding:3rem 4rem;dis
       <a href="about.html" class="btn-secondary">เกี่ยวกับเรา</a>
     </div>
     <div class="hero-stats">
-      <div class="stat-item"><div class="stat-num">6</div><div class="stat-label">Templates</div></div>
+      <div class="stat-item"><div class="stat-num" id="statTotal">6</div><div class="stat-label">Templates</div></div>
       <div class="stat-item"><div class="stat-num">100%</div><div class="stat-label">ฟรี</div></div>
-      <div class="stat-item"><div class="stat-num">6</div><div class="stat-label">Styles</div></div>
+      <div class="stat-item"><div class="stat-num" id="statStyles">6</div><div class="stat-label">Styles</div></div>
     </div>
   </div>
 
@@ -237,175 +243,14 @@ footer{background:var(--navy);color:rgba(255,255,255,0.45);padding:3rem 4rem;dis
       <div class="section-tag">Collections</div>
       <div class="section-title">เลือก Template<br>ที่ใช่สำหรับธุรกิจคุณ</div>
     </div>
-    <a href="#" class="section-link">ดูทั้งหมด →</a>
+    <a href="templates.html" class="section-link">Browse all →</a>
   </div>
 
   <div class="slider-wrapper">
-    <div class="templates-grid" id="templateGrid">
-
-      <!-- TPL-001 Minimalist -->
-      <a href="template-detail.html?id=1" class="template-card">
-        <div class="card-preview" style="background:#F8F7FF">
-          <div class="mini-receipt">
-            <div class="mr-logo" style="color:#1A1A2E">STUDIO</div>
-            <div class="mr-line"></div>
-            <div class="mr-row"><span>Design Service</span><span>฿3,500</span></div>
-            <div class="mr-row"><span>Consulting</span><span>฿1,200</span></div>
-            <div class="mr-row"><span>VAT 7%</span><span>฿329</span></div>
-            <div class="mr-total"><span>TOTAL</span><span>฿5,029</span></div>
-          </div>
-        </div>
-        <div class="card-body">
-          <div class="card-style">Minimalist</div>
-          <div class="card-name">Aurora Minimal</div>
-          <div class="card-desc">สะอาด เรียบง่าย ตรงประเด็น ดีไซน์ไร้กาลเวลาสำหรับ Freelancer และ Creative Studio</div>
-          <div class="card-footer">
-            <div class="card-tags">
-              <span class="tag" style="background:#EEEDFE;color:#534AB7">Freelancer</span>
-              <span class="tag" style="background:#F1EFE8;color:#5F5E5A">Clean</span>
-            </div>
-            <span class="view-link">ดูรายละเอียด →</span>
-          </div>
-        </div>
-      </a>
-
-      <!-- TPL-002 Vibrant -->
-      <a href="template-detail.html?id=2" class="template-card">
-        <div class="card-preview" style="background:linear-gradient(135deg,#FFE4E1 0%,#FFF9E6 100%)">
-          <div class="mini-receipt" style="background:linear-gradient(135deg,#FF6B6B,#FFE66D);border-radius:10px">
-            <div class="mr-logo" style="color:#1A1A2E">SHOP!</div>
-            <div class="mr-line" style="background:rgba(26,26,46,0.2)"></div>
-            <div class="mr-row" style="color:rgba(26,26,46,0.7)"><span>Product A</span><span>฿299</span></div>
-            <div class="mr-row" style="color:rgba(26,26,46,0.7)"><span>Product B</span><span>฿450</span></div>
-            <div class="mr-total" style="border-color:#1A1A2E;color:#1A1A2E"><span>TOTAL</span><span>฿749</span></div>
-          </div>
-        </div>
-        <div class="card-body">
-          <div class="card-style">Colorful / Vibrant</div>
-          <div class="card-name">Vivid Pop</div>
-          <div class="card-desc">สีสันสดใส มีพลังงาน ดึงดูดสายตา เหมาะกับร้านค้า Retail และ Food & Beverage</div>
-          <div class="card-footer">
-            <div class="card-tags">
-              <span class="tag" style="background:#FAECE7;color:#712B13">Retail</span>
-              <span class="tag" style="background:#FAEEDA;color:#633806">Bold</span>
-            </div>
-            <span class="view-link">ดูรายละเอียด →</span>
-          </div>
-        </div>
-      </a>
-
-      <!-- TPL-003 Dark -->
-      <a href="template-detail.html?id=3" class="template-card">
-        <div class="card-preview" style="background:#1A1A2E">
-          <div class="mini-receipt" style="background:#16213E;box-shadow:0 8px 24px rgba(0,0,0,0.4)">
-            <div class="mr-logo" style="color:#EF9F27">LUXE CO.</div>
-            <div class="mr-line" style="background:rgba(255,255,255,0.1)"></div>
-            <div class="mr-row" style="color:rgba(255,255,255,0.5)"><span>Package</span><span>฿9,500</span></div>
-            <div class="mr-row" style="color:rgba(255,255,255,0.5)"><span>Tax</span><span>฿665</span></div>
-            <div class="mr-total" style="border-color:#EF9F27;color:#EF9F27"><span>TOTAL</span><span>฿10,165</span></div>
-          </div>
-        </div>
-        <div class="card-body">
-          <div class="card-style">Dark / Premium</div>
-          <div class="card-name">Onyx Premium</div>
-          <div class="card-desc">โทนเข้มหรูหรา สัมผัสความ Luxury ทุก pixel เหมาะกับแบรนด์ระดับสูงและ Agency</div>
-          <div class="card-footer">
-            <div class="card-tags">
-              <span class="tag" style="background:#2C2C2A;color:#D3D1C7">Luxury</span>
-              <span class="tag" style="background:#FAEEDA;color:#633806">Gold</span>
-            </div>
-            <span class="view-link">ดูรายละเอียด →</span>
-          </div>
-        </div>
-      </a>
-
-      <!-- TPL-004 Retro -->
-      <a href="template-detail.html?id=4" class="template-card">
-        <div class="card-preview" style="background:#F5ECD7">
-          <div class="mini-receipt" style="background:#FFFBF2;border:1.5px solid #D4A574">
-            <div class="mr-logo" style="color:#8B5E3C;font-family:serif">THE CAFÉ</div>
-            <div class="mr-line" style="background:#D4A574"></div>
-            <div class="mr-row" style="color:#8B5E3C"><span>Espresso</span><span>฿85</span></div>
-            <div class="mr-row" style="color:#8B5E3C"><span>Croissant</span><span>฿65</span></div>
-            <div class="mr-total" style="border-color:#8B5E3C;color:#8B5E3C"><span>TOTAL</span><span>฿150</span></div>
-          </div>
-        </div>
-        <div class="card-body">
-          <div class="card-style">Retro / Vintage</div>
-          <div class="card-name">Nostalgic Press</div>
-          <div class="card-desc">กลิ่นอายวินเทจอบอุ่น เหมาะกับร้านกาแฟ Artisan และแบรนด์ Handmade สไตล์คลาสสิก</div>
-          <div class="card-footer">
-            <div class="card-tags">
-              <span class="tag" style="background:#FAEEDA;color:#633806">Café</span>
-              <span class="tag" style="background:#FAECE7;color:#712B13">Artisan</span>
-            </div>
-            <span class="view-link">ดูรายละเอียด →</span>
-          </div>
-        </div>
-      </a>
-
-      <!-- TPL-005 Corporate -->
-      <a href="template-detail.html?id=5" class="template-card">
-        <div class="card-preview" style="background:#EEF2F7">
-          <div class="mini-receipt" style="background:#fff;border-top:3px solid #1A3A5C">
-            <div class="mr-logo" style="color:#1A3A5C;font-size:0.7rem;letter-spacing:0.05em">CORPORATION LTD.</div>
-            <div class="mr-line" style="background:#dde4ed"></div>
-            <div class="mr-row" style="color:#444"><span>Consulting Fee</span><span>฿25,000</span></div>
-            <div class="mr-row" style="color:#444"><span>VAT 7%</span><span>฿1,750</span></div>
-            <div class="mr-total" style="border-color:#1A3A5C;color:#1A3A5C"><span>TOTAL</span><span>฿26,750</span></div>
-          </div>
-        </div>
-        <div class="card-body">
-          <div class="card-style">Corporate / B2B</div>
-          <div class="card-name">Blueprint Pro</div>
-          <div class="card-desc">มืออาชีพ น่าเชื่อถือ มีระเบียบ เหมาะสำหรับองค์กรธุรกิจ B2B และงาน Consulting</div>
-          <div class="card-footer">
-            <div class="card-tags">
-              <span class="tag" style="background:#E6F1FB;color:#0C447C">Corporate</span>
-              <span class="tag" style="background:#EAF3DE;color:#27500A">B2B</span>
-            </div>
-            <span class="view-link">ดูรายละเอียด →</span>
-          </div>
-        </div>
-      </a>
-
-      <!-- TPL-006 Playful -->
-      <a href="template-detail.html?id=6" class="template-card">
-        <div class="card-preview" style="background:linear-gradient(135deg,#E8D5F5 0%,#D5F0E8 100%)">
-          <div class="mini-receipt" style="background:#fff;border-radius:12px;border:2px dashed #C4A7E7">
-            <div class="mr-logo" style="color:#7C3AED">🎨 STUDIO</div>
-            <div class="mr-line" style="background:#EDE9FE"></div>
-            <div class="mr-row" style="color:#7C3AED"><span>Workshop</span><span>฿490</span></div>
-            <div class="mr-row" style="color:#7C3AED"><span>Materials</span><span>฿150</span></div>
-            <div class="mr-total" style="border-color:#7C3AED;color:#7C3AED"><span>TOTAL</span><span>฿640</span></div>
-          </div>
-        </div>
-        <div class="card-body">
-          <div class="card-style">Playful / Creative</div>
-          <div class="card-name">Doodle Studio</div>
-          <div class="card-desc">สนุกสนาน มีชีวิต ดีไซน์ลื่นไหล เหมาะกับ Creative Studio งาน Event และแบรนด์เด็ก</div>
-          <div class="card-footer">
-            <div class="card-tags">
-              <span class="tag" style="background:#EEEDFE;color:#534AB7">Creative</span>
-              <span class="tag" style="background:#FBEAF0;color:#72243E">Fun</span>
-            </div>
-            <span class="view-link">ดูรายละเอียด →</span>
-          </div>
-        </div>
-      </a>
-
-    </div>
+    <div class="templates-grid" id="templateGrid"></div>
   </div>
 
-  <div class="slider-controls">
-    <button class="slider-btn" onclick="slide(-1)">←</button>
-    <div class="slider-dots">
-      <div class="dot active" onclick="goTo(0)"></div>
-      <div class="dot" onclick="goTo(1)"></div>
-      <div class="dot" onclick="goTo(2)"></div>
-    </div>
-    <button class="slider-btn" onclick="slide(1)">→</button>
-  </div>
+  <div class="slider-controls" id="sliderControls"></div>
 </section>
 
 <!-- HOW IT WORKS -->
@@ -441,35 +286,134 @@ footer{background:var(--navy);color:rgba(255,255,255,0.45);padding:3rem 4rem;dis
 <footer>
   <div class="footer-logo">SLIP<span>KIT</span> <span style="font-weight:300;font-size:0.75rem;opacity:0.5;margin-left:0.5rem">Your receipt toolkit, ready to go.</span></div>
   <div class="footer-links">
-    <a href="index.html">Templates</a>
+    <a href="templates.html">Templates</a>
     <a href="about.html">About</a>
     <a href="admin.html">Admin</a>
   </div>
   <div style="font-size:0.75rem">© 2026 SLIPKIT</div>
 </footer>
 
+<!-- Shared template data -->
+<script src="templates-data.js"></script>
+
 <script>
-let current = 0;
-const total = 6;
-const visible = 3;
-const maxSlide = total - visible;
+/* ============================================================
+   หน้าแรก: render carousel จาก TEMPLATES (จำกัดแค่ featured)
+   - แสดง 3 ใบ/viewport เลื่อนทีละ 1 ใบ (เหมือน bearalot เดิม)
+   - มีปุ่ม ← → + เลขหน้า 1, 2, 3 ... ที่กดข้ามได้
+   ============================================================ */
+const FEATURED_LIMIT = 9;     // โชว์สูงสุด 9 ใบ (latest 9)
+const VISIBLE = 3;             // เห็น 3 ใบในจอพร้อมกัน
+let current = 0;               // ตำแหน่ง card ที่ปรากฏซ้ายสุด (0-indexed)
+let featured = [];
+
+function maxPos(){
+  // ตำแหน่งสูงสุดที่เลื่อนได้ = total - visible
+  return Math.max(0, featured.length - VISIBLE);
+}
+
+function initCarousel(){
+  // featured = latest N templates (ใหม่สุดอยู่หน้า)
+  featured = TEMPLATES.slice(-FEATURED_LIMIT).reverse();
+  renderCards();
+  renderControls();
+  updateSlider();
+  // อัปเดตเลข stat ใน hero
+  const totalEl = document.getElementById('statTotal');
+  const stylesEl = document.getElementById('statStyles');
+  if(totalEl) totalEl.textContent = TEMPLATES.length;
+  if(stylesEl){
+    const uniqStyles = new Set(TEMPLATES.map(t => t.style)).size;
+    stylesEl.textContent = uniqStyles;
+  }
+}
+
+function renderCards(){
+  const grid = document.getElementById('templateGrid');
+  grid.innerHTML = featured.map(t => renderCard(t)).join('');
+}
+
+function renderCard(t){
+  const tags = (t.tags || []).map(tag =>
+    `<span class="tag" style="background:${tag.bg};color:${tag.color}">${tag.label}</span>`
+  ).join('');
+  return `<a href="template-detail.html?id=${t.id}" class="template-card">
+    <div class="card-preview" style="background:${t.preview.bg}">
+      ${renderMiniReceipt(t.preview)}
+    </div>
+    <div class="card-body">
+      <div class="card-style">${t.style}</div>
+      <div class="card-name">${t.name}</div>
+      <div class="card-desc">${t.desc}</div>
+      <div class="card-footer">
+        <div class="card-tags">${tags}</div>
+        <span class="view-link">ดูรายละเอียด →</span>
+      </div>
+    </div>
+  </a>`;
+}
+
+function renderMiniReceipt(p){
+  const m = p.mini;
+  const rows = (m.rows || []).map(r =>
+    `<div class="mr-row" ${r.color?`style="color:${r.color}"`:''}><span>${r.label}</span><span>${r.value}</span></div>`
+  ).join('');
+  return `<div class="mini-receipt" style="${m.cardStyle || ''}">
+    <div class="mr-logo" ${m.logoColor?`style="color:${m.logoColor};${m.logoExtra||''}"`:''}>${m.logo}</div>
+    <div class="mr-line" ${m.lineColor?`style="background:${m.lineColor}"`:''}></div>
+    ${rows}
+    <div class="mr-total" style="${m.totalStyle||''}"><span>${m.totalLabel||'TOTAL'}</span><span>${m.totalValue}</span></div>
+  </div>`;
+}
+
+function renderControls(){
+  const totalSteps = maxPos() + 1;   // จำนวน "ตำแหน่ง" ที่เลื่อนได้ (รวม pos 0)
+  const pagesHtml = buildPageList(current, totalSteps).map(p => {
+    if(p === '...') return `<button class="page-num dots">…</button>`;
+    return `<button class="page-num ${p===current?'active':''}" onclick="goToPage(${p})">${p+1}</button>`;
+  }).join('');
+
+  document.getElementById('sliderControls').innerHTML = `
+    <button class="slider-btn" onclick="slide(-1)" ${current===0?'disabled':''} aria-label="Previous">←</button>
+    <div class="slider-pages">${pagesHtml}</div>
+    <button class="slider-btn" onclick="slide(1)" ${current>=maxPos()?'disabled':''} aria-label="Next">→</button>
+    <a href="templates.html" class="browse-all-link">Browse all →</a>
+  `;
+}
+
+function buildPageList(cur, total){
+  if(total <= 5) return Array.from({length:total},(_,i)=>i);
+  const out = [0];
+  if(cur > 2) out.push('...');
+  for(let i=Math.max(1,cur-1); i<=Math.min(total-2,cur+1); i++) out.push(i);
+  if(cur < total-3) out.push('...');
+  out.push(total-1);
+  return out;
+}
 
 function slide(dir) {
-  current = Math.max(0, Math.min(current + dir, maxSlide));
+  current = Math.max(0, Math.min(current + dir, maxPos()));
   updateSlider();
+  renderControls();
 }
-function goTo(i) {
-  current = i;
+function goToPage(i) {
+  current = Math.max(0, Math.min(i, maxPos()));
   updateSlider();
+  renderControls();
 }
 function updateSlider() {
   const grid = document.getElementById('templateGrid');
+  if(!grid || !grid.children.length) return;
+  // gap = 1.5rem = 24px
   const cardW = grid.children[0].offsetWidth + 24;
+  // เลื่อนทีละ 1 card (ไม่ใช่ทีละ VISIBLE)
   grid.style.transform = `translateX(-${current * cardW}px)`;
-  document.querySelectorAll('.dot').forEach((d, i) => {
-    d.classList.toggle('active', i === current);
-  });
 }
+
+// re-calculate on resize (responsive)
+window.addEventListener('resize', () => updateSlider());
+window.addEventListener('DOMContentLoaded', initCarousel);
+if(document.readyState !== 'loading') initCarousel();
 </script>
 </body>
 </html>

@@ -65,7 +65,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1.2rem 4rem;display:
 .info-val{font-weight:500;color:var(--navy)}
 .badge-row{display:flex;flex-wrap:wrap;gap:0.4rem;margin-top:0.5rem}
 .badge{font-size:0.68rem;padding:0.25rem 0.6rem;border-radius:99px;font-weight:500}
-.btn-download{width:100%;background:var(--navy);color:#fff;padding:1rem;border-radius:12px;border:none;font-family:'Syne',sans-serif;font-weight:700;font-size:0.9rem;letter-spacing:0.03em;cursor:pointer;transition:all 0.25s;margin-bottom:0.75rem}
+.btn-download{width:100%;background:var(--navy);color:#fff;padding:1rem;border-radius:12px;border:none;font-family:'Syne',sans-serif;font-weight:700;font-size:0.9rem;letter-spacing:0.03em;cursor:pointer;transition:all 0.25s;margin-bottom:0.75rem;display:block;text-align:center;text-decoration:none}
 .btn-download:hover{background:var(--purple);transform:translateY(-2px)}
 .btn-back{width:100%;background:transparent;color:var(--navy);padding:0.85rem;border-radius:12px;border:1.5px solid var(--navy);font-family:'Syne',sans-serif;font-weight:600;font-size:0.85rem;cursor:pointer;transition:all 0.25s;text-decoration:none;display:block;text-align:center}
 .btn-back:hover{border-color:var(--purple);color:var(--purple)}
@@ -146,7 +146,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1.2rem 4rem;display:
   <!-- SIDEBAR -->
   <div class="sidebar">
     <div class="sidebar-card">
-      <button class="btn-download" onclick="alert('ขอบคุณที่สนใจ! ฟีเจอร์ดาวน์โหลดจะเปิดให้บริการเร็วๆ นี้')">⬇ ดาวน์โหลด Template ฟรี</button>
+      <a id="btnDownload" class="btn-download" href="#" download>⬇ ดาวน์โหลด Template ฟรี</a>
       <a href="index.html" class="btn-back">← ดู Templates อื่น</a>
     </div>
 
@@ -409,6 +409,13 @@ function render(){
       <span style="font-size:0.9rem;color:var(--navy)">${a.trim()}</span>
     </div>`
   ).join('');
+
+  // ปุ่ม download → ลิงก์ไป downloads/tpl-XXX.zip (3 หลัก ตาม id)
+  const idStr = String(id).padStart(3, '0');
+  const slug = (t.name || 'template').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+  const dlBtn = document.getElementById('btnDownload');
+  dlBtn.href = `downloads/tpl-${idStr}.zip`;
+  dlBtn.setAttribute('download', `tpl-${idStr}-${slug}.zip`);
 
   const prev = templates.find(x=>x.id===id-1);
   const next = templates.find(x=>x.id===id+1);
